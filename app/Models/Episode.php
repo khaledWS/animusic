@@ -12,4 +12,11 @@ class Episode extends Model
 
 
     protected  $guarded = [];
+
+
+
+    public function ParentTitle()
+    {
+        return $this->belongsTo(Title::class,'title_id','id');
+    }
 }

@@ -13,7 +13,7 @@ class StoreEpisodeTrackRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreEpisodeTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'start' => 'required|numeric',
+            'end' => 'required|numeric',
+            'notes' => 'string|nullable'
         ];
     }
 }

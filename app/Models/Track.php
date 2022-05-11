@@ -11,4 +11,16 @@ class Track extends Model
 
 
     protected  $guarded = [];
+
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class,'album_id','id');
+    }
+
+
+    public function displayFormat()
+    {
+        return gmdate("i:s", $this->length);
+    }
 }

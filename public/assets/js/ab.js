@@ -8,31 +8,29 @@ var DatatableRemoteAjaxDemo = {
              'ordering': 0,
              "responsive": 1,
             ajax: {
-                url: "/test2",
+                url: "/episode/episode-track",
+                dataSrc:''
             },
             columns: [
                 {
-                data: null,
+                data: 'id',
                 title: "#",
                 width: "50px",
-                textAlign: "center",
-                render: function (data,type,full,meta) {
-                    return meta.row+1;
-                }
+                textAlign: "center"
             }, {
-                data: "track_name",
+                data: "title",
                 title: "name",
                 width: "500px",
                 render: function (data) {
                     return '<a href="#">'+data+'</a>';
                 }
             }, {
-                data: "start_time",
+                data: "start",
                 title: "starts",
                 width: 150,
             },
             {
-                data: "end_time",
+                data: "end",
                 title: "ends",
                 width: 250,
             }, {
@@ -41,7 +39,7 @@ var DatatableRemoteAjaxDemo = {
                 width: 150,
                 className: "none"
             },{
-                data: "episode",
+                data: "episode_id",
                 title: "episode",
                 width: 150,
                 className: "none",
@@ -53,10 +51,17 @@ var DatatableRemoteAjaxDemo = {
         // $("#m_form_status").on("change", function() {
         //     t.search($(this).val(), "STATUS")
         // }),
-        $(".nav-tabs li a").click(function(){
+         $(".nav-tabs li a").click(function(){
             t.column(5).search(this.getAttribute('targ')).draw();
-        });
-        t.column(5).search(1).draw();
+         });
+        // t.column(5).search(1).draw();
+        t.on( 'order.dt search.dt', function () {
+            let i = 1;
+
+            t.cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
+                this.data(i++);
+            } );
+        } ).draw();
     }
 };
 

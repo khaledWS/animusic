@@ -27,7 +27,7 @@
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="/form">
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('episode.create-track')}}">
                 @csrf
                 <!--begin::Input group-->
                 <div class="row mb-7">
@@ -78,11 +78,11 @@
                             <select name="episode_id" aria-label="Select a episode" data-control="select2"
                                 data-placeholder="Select episode" class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="canon">canon</option>
-                                <option value="recap">recap</option>
-                                <option value="spinoff">spinoff</option>
-                                <option value="filler">filler</option>
-                                <option value="extra">extra</option>
+                                @isset($episodes)
+                                    @foreach ($episodes as $episode)
+                                    <option value="{{$episode->id}}">{{$episode->title}}</option>
+                                    @endforeach
+                                @endisset
                             </select>
                             <!--end::Input-->
                         </div>
@@ -104,11 +104,11 @@
                             <select name="track_id" aria-label="Select a track" data-control="select2"
                                 data-placeholder="Select track" class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="canon">canon</option>
-                                <option value="recap">recap</option>
-                                <option value="spinoff">spinoff</option>
-                                <option value="filler">filler</option>
-                                <option value="extra">extra</option>
+                                @isset($tracks)
+                                @foreach ($tracks as $track)
+                                <option value="{{$track->id}}">{{$track->title}}</option>
+                                @endforeach
+                            @endisset
                             </select>
                             <!--end::Input-->
                         </div>
@@ -150,7 +150,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="start" class=" form-control form-control-solid"
+                            <input type="text" name="end" class=" form-control form-control-solid"
                                 placeholder="title" />
                             <!--end::Input-->
                         </div>
@@ -218,34 +218,34 @@ $("#kt_daterangepicker_4").daterangepicker({
     }
 );
 
-$('input[name="unknown"]').on('change', function (){
-    if( $(this).attr('isChecked') == 'true'){
-        $(this).attr('isChecked', 'false')
-        $('select[name="episode_id"]').removeAttr('disabled');
-        $('select[name="track_id"]').removeAttr('disabled');
+// $('input[name="unknown"]').on('change', function (){
+//     if( $(this).attr('isChecked') == 'true'){
+//         $(this).attr('isChecked', 'false')
+//         $('select[name="episode_id"]').removeAttr('disabled');
+//         $('select[name="track_id"]').removeAttr('disabled');
 
-    }
-    else{
-        $(this).attr( "isChecked", 'true' );
-        $('select[name="episode_id"]').attr('disabled','disabled');
-        $('select[name="track_id"]').attr('disabled','disabled');
-    }
-});
-    $('input[name="new"]').on('change', function (){
-    if( $(this).attr('isChecked') == 'true'){
-        $(this).attr('isChecked', 'false');
-        enable_disable();
-        // $('select[name="episode_id"]').removeAttr('disabled');
-        // $('select[name="track_id"]').removeAttr('disabled');
+//     }
+//     else{
+//         $(this).attr( "isChecked", 'true' );
+//         $('select[name="episode_id"]').attr('disabled','disabled');
+//         $('select[name="track_id"]').attr('disabled','disabled');
+//     }
+// });
+//     $('input[name="new"]').on('change', function (){
+//     if( $(this).attr('isChecked') == 'true'){
+//         $(this).attr('isChecked', 'false');
+//         enable_disable();
+//         // $('select[name="episode_id"]').removeAttr('disabled');
+//         // $('select[name="track_id"]').removeAttr('disabled');
 
-    }
-    else{
-        $(this).attr( "isChecked", 'true' );
-        enable_disable();
-        // $('select[name="episode_id"]').attr('disabled','disabled');
-        // $('select[name="track_id"]').attr('disabled','disabled');
-    }
-});
+//     }
+//     else{
+//         $(this).attr( "isChecked", 'true' );
+//         enable_disable();
+//         // $('select[name="episode_id"]').attr('disabled','disabled');
+//         // $('select[name="track_id"]').attr('disabled','disabled');
+//     }
+// });
 
 function enable_disable()
 {

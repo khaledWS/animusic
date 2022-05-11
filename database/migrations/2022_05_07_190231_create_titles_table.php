@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('number_of_episodes')->nullable();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
+            $table->string('order')->nullable();
             $table->string('thumbnail')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

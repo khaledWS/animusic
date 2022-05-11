@@ -13,7 +13,7 @@ class StoreAlbumRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreAlbumRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'thumbnail' => 'required',
+            'title' => 'required|string',
+            'number_of_tracks' => 'numeric',
+            'title_id' => 'nullable|exists:titles,id',
+            'composer' => 'required|string',
+            'album_length' => 'required|string',
+            'date_released' => 'date'
         ];
     }
 }

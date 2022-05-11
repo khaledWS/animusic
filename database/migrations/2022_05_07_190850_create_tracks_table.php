@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('length');
             $table->string('notes')->nullable();
             $table->foreignId('album_id')->nullable();
+            $table->string('order')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

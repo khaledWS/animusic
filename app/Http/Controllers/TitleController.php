@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Title;
 use App\Http\Requests\StoreTitleRequest;
 use App\Http\Requests\UpdateTitleRequest;
+use App\Models\Album;
 
 class TitleController extends Controller
 {
@@ -15,8 +16,15 @@ class TitleController extends Controller
      */
     public function index()
     {
-        $titles = Title::all();
-        return view('title',compact('titles'));
+        try {
+            $tracksSum = Album::sum('number_of_tracks');
+            $lengthSum =  gmdate("H:i:s", Album::sum('album_length'));
+            $titles = Title::all();
+            $albums = Album::active()->get();
+            return view('title', compact('titles', 'albums','tracksSum','lengthSum'));
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**
@@ -37,22 +45,21 @@ class TitleController extends Controller
      */
     public function store(StoreTitleRequest $request)
     {
-        try{
+        try {
             $collection = collect($request);
             $image = uploadImage($collection['thumbnail']);
             $collection['thumbnail'] = $image;
-            $collection->forget(['_token','thumbnail_remove']);
-            if($collection->has('active')){
-              $collection['active'] = true;
-            }
-            else{
+            $collection->forget(['_token', 'thumbnail_remove']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
                 $collection['active'] = false;
             }
             $maxOrder = Title::max('order');
-            $collection['order'] = $maxOrder+1;
+            $collection['order'] = $maxOrder + 1;
             Title::create($collection->toArray());
-           return redirect()->back();
-        }catch(\Exception $ex){
+            return redirect()->back();
+        } catch (\Exception $ex) {
             dd($ex);
         }
     }
@@ -65,7 +72,8 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
-        //
+        // dd($title->episodes);
+        return view('showtitle',compact('title'));
     }
 
     /**

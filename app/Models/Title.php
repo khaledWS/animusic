@@ -23,4 +23,14 @@ class Title extends Model
         return getPhotoPath($this->thumbnail);
     }
 
+    public function Album()
+    {
+        return $this->hasMany(Album::class,'title_id','id');
+    }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class,'title_id','id');
+    }
+
 }

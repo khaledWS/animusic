@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('number_of_tracks')->nullable();
             $table->string('album_length')->nullable();
             $table->string('thumbnail')->nullable();
+            $table->string('order')->nullable();
             $table->boolean('active')->default(true);;
             $table->timestamps();
         });

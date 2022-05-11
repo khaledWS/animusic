@@ -13,7 +13,7 @@ class StoreTrackRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'length' => 'required|numeric',
+            'order' => 'required|numeric',
+            'notes' => 'string|nullable'
         ];
     }
 }

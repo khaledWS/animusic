@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
+use App\Models\Title;
 
 class AlbumController extends Controller
 {
@@ -25,7 +26,13 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        try{
+        $titles = Title::all();
+        return view('createAlbum', compact('titles'));
+        }
+        catch(\Exception $ex){
+            redirect()->route('title.index');
+        }
     }
 
     /**
@@ -36,7 +43,23 @@ class AlbumController extends Controller
      */
     public function store(StoreAlbumRequest $request)
     {
-        //
+        try {
+            $collection = collect($request);
+            $image = uploadImage($collection['thumbnail']);
+            $collection['thumbnail'] = $image;
+            $collection->forget(['_token', 'thumbnail_remove']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            $maxOrder = Album::max('order');
+            $collection['order'] = $maxOrder + 1;
+            Album::create($collection->toArray());
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            redirect()->route('title.index');
+        }
     }
 
     /**
@@ -47,7 +70,7 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        //
+        return view('showalbum',compact('album'));
     }
 
     /**

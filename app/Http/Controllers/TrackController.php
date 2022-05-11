@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Track;
 use App\Http\Requests\StoreTrackRequest;
 use App\Http\Requests\UpdateTrackRequest;
+use App\Models\Album;
 
 class TrackController extends Controller
 {
@@ -25,7 +26,8 @@ class TrackController extends Controller
      */
     public function create()
     {
-        //
+        $albums = Album::all();
+        return view('createtrack',compact('albums'));
     }
 
     /**
@@ -36,7 +38,19 @@ class TrackController extends Controller
      */
     public function store(StoreTrackRequest $request)
     {
-        //
+        try {
+            $collection = collect($request);
+            $collection->forget(['_token']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            Track::create($collection->toArray());
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**

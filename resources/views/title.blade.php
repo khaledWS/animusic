@@ -24,11 +24,11 @@
                             <div class="d-flex align-items-center me-6">
                                 <!--begin::Icon-->
                                 <a href="#" class="me-2">
-                                    <i class="fonticon-play text-primary fs-3"></i>
+                                    <i class="fas fa-play-circle text-primary fs-3"></i>
                                 </a>
                                 <!--end::Icon-->
                                 <!--begin::Info-->
-                                <span class="fw-bold text-white fs-6">xx Tracks</span>
+                                <span class="fw-bold text-white fs-6">{{$tracksSum}} Tracks</span>
                                 <!--end::Info-->
                             </div>
                             <!--end::Item-->
@@ -36,11 +36,11 @@
                             <div class="d-flex align-items-center">
                                 <!--begin::Icon-->
                                 <a href="#" class="me-2">
-                                    <i class="fonticon-headset text-primary fs-3"></i>
+                                    <i class="fas fa-headphones-alt text-primary fs-3"></i>
                                 </a>
                                 <!--end::Icon-->
                                 <!--begin::Info-->
-                                <span class="fw-bold text-white fs-6">xx Hours</span>
+                                <span class="fw-bold text-white fs-6">{{$lengthSum}}</span>
                                 <!--end::Info-->
                             </div>
                             <!--end::Item-->
@@ -280,7 +280,7 @@
                                     <!--begin::Player card-->
                                     <div class="m-0">
                                         <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
+                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="{{route('title.show',$title->id)}}">
                                             <!--begin::Image-->
                                             <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
                                                 style="height: 266px;background-image:url('{{$title->getImage()}}')">
@@ -296,7 +296,7 @@
                                         <!--begin::Info-->
                                         <div class="m-0">
                                             <!--begin::Title-->
-                                            <a href="#"
+                                            <a href="{{route('title.show',$title->id)}}"
                                                 class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">{{$title->title}}</a>
                                             <!--end::Title-->
                                             <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$title->number_of_episodes}} Episodes</span>
@@ -312,15 +312,17 @@
                         </div>
                         <div class="tab-pane fade" id="kt_tab_albums" role="tabpanel">
                             <div class="row">
+                                @isset($albums)
+                                @foreach ($albums as $album)
                                 <!--begin::Col-->
                                 <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
                                     <!--begin::Player card-->
                                     <div class="m-0">
                                         <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
+                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="{{route('album.show',$album->id)}}">
                                             <!--begin::Image-->
                                             <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/SnK_Original_Soundtrack_Cover.webp')}}')">
+                                                style="height: 266px;background-image:url('{{$album->getImage()}}')">
                                             </div>
                                             <!--end::Image-->
                                             <!--begin::Action-->
@@ -333,273 +335,19 @@
                                         <!--begin::Info-->
                                         <div class="m-0">
                                             <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">"Attack
-                                                on Titan" Original Soundtrack</a>
+                                            <a href="{{route('album.show',$album->id)}}"
+                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">{{$album->title}}</a>
                                             <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">16 tracks</span>
+                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$album->number_of_tracks}} tracks</span>
                                         </div>
                                         <!--end::Info-->
                                     </div>
                                     <!--end::Player card-->
                                 </div>
                                 <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px; background-image:url('{{asset('other/Original_Soundtrack_II_Cover.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">"Attack
-                                                on Titan" Original Soundtrack II</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">11 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/YAMANAIAME_ALBUM_ART.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">
-                                                YAMANAIAME (Album)</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">7 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/Guren_no_Yumiya_OST.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">Attack
-                                                on Titan -Guren no Yumiya- Original sound track</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">6 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/The_DOGS_cover.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">TheDOGS
-                                                (Album)</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">5 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/Jiyuu_no_Tsubasa_OST.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">
-                                                Attack on Titan -Jiyu no Tsubasa- Original sound track</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">4 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/Season_2_Original_Soundtrack_Cover.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">"Attack
-                                                on Titan" Season 2 Original Soundtrack</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">33 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/Season_3_Original_Soundtrack_Cover.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">"Attack
-                                                on Titan" Season 3 Original Soundtrack</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">33 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{asset('other/The_Final_Season_Original_Soundtrack_Cover.webp')}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
-                                        <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="#"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">
-                                                "Attack on Titan" The Final Season Original Soundtrack</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">23 Tracks</span>
-                                        </div>
-                                        <!--end::Info-->
-                                    </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
+                                @endforeach
+                                @endisset
+
                             </div>
                         </div>
                     </div>

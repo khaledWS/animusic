@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Episode;
 use App\Http\Requests\StoreEpisodeRequest;
 use App\Http\Requests\UpdateEpisodeRequest;
+use App\Models\Title;
 
 class EpisodeController extends Controller
 {
@@ -25,7 +26,8 @@ class EpisodeController extends Controller
      */
     public function create()
     {
-        //
+        $titles = Title::all();
+        return view('createepisode',compact('titles'));
     }
 
     /**
@@ -36,7 +38,19 @@ class EpisodeController extends Controller
      */
     public function store(StoreEpisodeRequest $request)
     {
-        //
+        try {
+            $collection = collect($request);
+            $collection->forget(['_token']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            Episode::create($collection->toArray());
+            return redirect()->back();
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**
