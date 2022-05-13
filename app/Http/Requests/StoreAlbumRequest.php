@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAlbumRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class StoreAlbumRequest extends FormRequest
         return [
             'thumbnail' => 'required',
             'title' => 'required|string',
+            'order' => ['numeric', Rule::unique('titles','order')],
             'number_of_tracks' => 'numeric',
             'title_id' => 'nullable|exists:titles,id',
             'composer' => 'required|string',

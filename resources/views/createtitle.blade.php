@@ -84,24 +84,47 @@
                     @enderror
                 </div>
                 <!--end::Input group-->
-                <!--begin::Input group-->
-                <div class="fv-row mb-7">
-                    <!--begin::Label-->
-                    <label class="fs-6 fw-bold form-label mt-3">
-                        <span>number of episodes</span>
-                        {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                            title="Enter the contact's city of residence (optional)."></i> --}}
-                    </label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="number_of_episodes" class="form-control form-control-solid"
-                        placeholder="number of episodes" />
-                    <!--end::Input-->
-                    @error('number_of_episodes')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                <!--begin::row-->
+                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                    <div class="col">
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold form-label mt-3">
+                                <span>number of episodes</span>
+                                {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    title="Enter the contact's city of residence (optional)."></i> --}}
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="number_of_episodes" class="form-control form-control-solid"
+                                placeholder="number of episodes" value="{{old('number_of_episodes')}}" />
+                            <!--end::Input-->
+                            @error('number_of_episodes')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold form-label mt-3">
+                                <span>Order on main Page</span>
+                                {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    title="Enter the contact's city of residence (optional)."></i> --}}
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="order" class="form-control form-control-solid"
+                                placeholder="order" value="{{old('order',$lastOrder)}}" />
+                            <!--end::Input-->
+                            @error('order')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
-                <!--end::Input group-->
+                <!--end::row-->
                 <!--begin::Row-->
                 <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                     <!--begin::Col-->

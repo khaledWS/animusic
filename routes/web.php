@@ -13,6 +13,8 @@ use App\Models\Title;
 use App\Models\Track;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,18 +28,62 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [TitleController::class, 'index'])->name('title.index');
-route::get('/title/new', [TitleController::class, 'create'])->name('title.new');
-route::post('title/create', [TitleController::class, 'store'])->name('title.create');
-route::get('/album/new', [AlbumController::class, 'create'])->name('album.new');
-route::post('album/create', [AlbumController::class, 'store'])->name('album.create');
-route::get('/track/new', [TrackController::class, 'create'])->name('track.new');
-route::post('/track/create', [TrackController::class, 'store'])->name('track.create');
-route::get('/episode/new', [EpisodeController::class, 'create'])->name('episode.new');
-route::post('/episode/create', [EpisodeController::class, 'store'])->name('episode.create');
-route::get('/episode/add-track', [EpisodeTrackController::class, 'create'])->name('episode.add-track');
-route::post('/episode/create-track', [EpisodeTrackController::class, 'store'])->name('episode.create-track');
-route::get('/episode/episode-track', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
-route::get('/album/{album}', [AlbumController::class, 'show'])->name('album.show');
-route::get('/title/{title}', [TitleController::class, 'show'])->name('title.show');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+
+
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+
+    /**
+     * Titles Routes
+     */
+    route::get('title/new', [TitleController::class, 'create'])->name('title.new');
+    route::post('title/create', [TitleController::class, 'store'])->name('title.create');
+    route::get('title/view/{title}', [TitleController::class, 'show'])->name('title.view');
+    route::get('/title/edit/{title}', [TitleController::class, 'edit'])->name('title.edit');
+    route::post('title/update/{title}', [TitleController::class, 'update'])->name('title.update');
+    route::post('title/delete/{title}', [TitleController::class, 'destroy'])->name('title.delete');
+
+    /**
+     * Albums Routes
+     */
+    route::get('/album/new', [AlbumController::class, 'create'])->name('album.new');
+    route::post('album/create', [AlbumController::class, 'store'])->name('album.create');
+    route::get('album/view/{album}', [AlbumController::class, 'show'])->name('album.view');
+    route::get('album/edit/{album}', [AlbumController::class, 'edit'])->name('album.edit');
+    route::post('album/update/{album}', [AlbumController::class, 'update'])->name('album.update');
+    route::post('album/delete/{album}', [AlbumController::class, 'destroy'])->name('album.delete');
+
+    /**
+     * Tracks Routes
+     */
+    route::get('/track/new', [TrackController::class, 'create'])->name('track.new');
+    route::post('/track/create', [TrackController::class, 'store'])->name('track.create');
+
+    /**
+     * Episodes Routes
+     */
+    route::get('/episode/new', [EpisodeController::class, 'create'])->name('episode.new');
+    route::post('/episode/create', [EpisodeController::class, 'store'])->name('episode.create');
+    route::get('/episode/add-track', [EpisodeTrackController::class, 'create'])->name('episode.add-track');
+    route::post('/episode/create-track', [EpisodeTrackController::class, 'store'])->name('episode.create-track');
+});
+
+
+Route::get('/', [AnimeController::class, 'index'])->name('title.index');
+route::get('title/{title}', [AnimeController::class, 'title'])->name('title.show');
+route::get('/album/{album}', [AnimeController::class, 'album'])->name('album.show');
+route::get('/episode/episode-track', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
+
+
+
+
+
+require __DIR__ . '/auth.php';

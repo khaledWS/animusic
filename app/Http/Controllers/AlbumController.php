@@ -26,11 +26,10 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        try{
-        $titles = Title::all();
-        return view('createAlbum', compact('titles'));
-        }
-        catch(\Exception $ex){
+        try {
+            $titles = Title::all();
+            return view('createAlbum', compact('titles'));
+        } catch (\Exception $ex) {
             redirect()->route('title.index');
         }
     }
@@ -70,7 +69,8 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return view('showalbum',compact('album'));
+
+        return view('viewalbum', compact('album'));
     }
 
     /**
@@ -81,7 +81,12 @@ class AlbumController extends Controller
      */
     public function edit(Album $album)
     {
-        //
+        try {
+            $titles = Title::all();
+            return view('editalbum', compact('album', 'titles'));
+        } catch (\Exception $ex) {
+            redirect()->route('title.index');
+        }
     }
 
     /**
@@ -93,7 +98,23 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
-        //
+        try {
+            $collection = collect($request);
+            if ($collection->has('thumbnail')) {
+                $image = uploadImage($collection['thumbnail']);
+                $collection['thumbnail'] = $image;
+            }
+            $collection->forget(['_token', 'thumbnail_remove']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            $album->update($collection->toArray());
+            return redirect()->route('album.view', $album->id);
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**

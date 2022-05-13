@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAlbumRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateAlbumRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,14 @@ class UpdateAlbumRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'thumbnail' => 'required_if:thumbnail_remove,1',
+            'title' => 'required|string',
+            'order' => ['numeric', Rule::unique('albums','order')->ignore($this->id)],
+            'number_of_episodes' =>'numeric',
+            'type' => 'in:canon,recap,spinoff,filler,extra',
+            'format' => 'in:tv,movie,oda',
+            'start_date' => 'date',
+            'end_date'=> 'date'
         ];
     }
 }

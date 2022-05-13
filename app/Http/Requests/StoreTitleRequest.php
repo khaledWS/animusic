@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTitleRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class StoreTitleRequest extends FormRequest
         return [
             'thumbnail' => 'required',
             'title' => 'required|string',
+            'order' => ['numeric', Rule::unique('titles','order')],
             'number_of_episodes' =>'numeric',
             'type' => 'in:canon,recap,spinoff,filler,extra',
             'format' => 'in:tv,movie,oda',

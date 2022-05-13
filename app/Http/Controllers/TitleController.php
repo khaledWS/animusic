@@ -16,15 +16,7 @@ class TitleController extends Controller
      */
     public function index()
     {
-        try {
-            $tracksSum = Album::sum('number_of_tracks');
-            $lengthSum =  gmdate("H:i:s", Album::sum('album_length'));
-            $titles = Title::all();
-            $albums = Album::active()->get();
-            return view('title', compact('titles', 'albums','tracksSum','lengthSum'));
-        } catch (\Exception $ex) {
-            dd($ex);
-        }
+        //
     }
 
     /**
@@ -34,7 +26,14 @@ class TitleController extends Controller
      */
     public function create()
     {
-        return view('createtitle');
+        //gets the last available order
+        try{
+        $lastOrder  = Title::max('order') + 1;
+        return view('createtitle', compact('lastOrder'));
+        }catch(\Exception $ex){
+            dd($ex);
+        }
+
     }
 
     /**
@@ -55,8 +54,6 @@ class TitleController extends Controller
             } else {
                 $collection['active'] = false;
             }
-            $maxOrder = Title::max('order');
-            $collection['order'] = $maxOrder + 1;
             Title::create($collection->toArray());
             return redirect()->back();
         } catch (\Exception $ex) {
@@ -72,8 +69,7 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
-        // dd($title->episodes);
-        return view('showtitle',compact('title'));
+        return view('viewtitle', compact('title'));
     }
 
     /**
@@ -84,7 +80,7 @@ class TitleController extends Controller
      */
     public function edit(Title $title)
     {
-        //
+        return view('edittitle', compact('title'));
     }
 
     /**
@@ -96,7 +92,23 @@ class TitleController extends Controller
      */
     public function update(UpdateTitleRequest $request, Title $title)
     {
-        //
+        try {
+            $collection = collect($request);
+            if ($collection->has('thumbnail')) {
+                $image = uploadImage($collection['thumbnail']);
+                $collection['thumbnail'] = $image;
+            }
+            $collection->forget(['_token', 'thumbnail_remove']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            $title->update($collection->toArray());
+            return redirect()->route('title.view', $title->id);
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**
@@ -107,6 +119,11 @@ class TitleController extends Controller
      */
     public function destroy(Title $title)
     {
-        //
+        try {
+            $title->delete();
+            return redirect('/');
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 }

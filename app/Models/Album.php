@@ -42,4 +42,10 @@ class Album extends Model
     {
         return gmdate("H:i:s", $this->album_length);
     }
+
+    public function isActive()
+    {
+        $isActive = $this->active == 1? true : false;
+        return $isActive;
+    }
 }

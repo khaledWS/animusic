@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Title extends Model
 {
-    use HasFactory;
-
 
     protected  $guarded = [];
 
 
     /**
-     * getProper Image URI.
+     * get Full Image URI.
      *
      * @return string
      */
@@ -23,14 +20,35 @@ class Title extends Model
         return getPhotoPath($this->thumbnail);
     }
 
+
+    /**
+     * Album hasMany Relationship
+     *
+     * @return void
+     */
     public function Album()
     {
-        return $this->hasMany(Album::class,'title_id','id');
+        return $this->hasMany(Album::class, 'title_id', 'id');
     }
 
+    /**
+     * episodes hasMany Relationship
+     *
+     * @return void
+     */
     public function episodes()
     {
-        return $this->hasMany(Episode::class,'title_id','id');
+        return $this->hasMany(Episode::class, 'title_id', 'id');
     }
 
+    /**
+     * checks if title is active
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        $isActive = $this->active == 1 ? true : false;
+        return $isActive;
+    }
 }
