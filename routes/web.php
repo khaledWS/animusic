@@ -66,14 +66,34 @@ Route::middleware(['auth'])->group(function () {
      */
     route::get('/track/new', [TrackController::class, 'create'])->name('track.new');
     route::post('/track/create', [TrackController::class, 'store'])->name('track.create');
+    route::get('track/view/{track}', [TrackController::class, 'show'])->name('track.view');
+    route::get('track/edit/{track}', [TrackController::class, 'edit'])->name('track.edit');
+    route::post('track/update/{track}', [TrackController::class, 'update'])->name('track.update');
+    route::post('track/delete/{track}', [TrackController::class, 'destroy'])->name('track.delete');
 
     /**
      * Episodes Routes
      */
     route::get('/episode/new', [EpisodeController::class, 'create'])->name('episode.new');
     route::post('/episode/create', [EpisodeController::class, 'store'])->name('episode.create');
+    route::get('episode/view/{episode}', [EpisodeController::class, 'show'])->name('episode.view');
+    route::get('episode/edit/{episode}', [EpisodeController::class, 'edit'])->name('episode.edit');
+    route::post('episode/update/{episode}', [EpisodeController::class, 'update'])->name('episode.update');
+    route::post('episode/delete/{episode}', [EpisodeController::class, 'destroy'])->name('episode.delete');
+
+
+
+    /**
+     * Episodes Track Routes
+     */
     route::get('/episode/add-track', [EpisodeTrackController::class, 'create'])->name('episode.add-track');
     route::post('/episode/create-track', [EpisodeTrackController::class, 'store'])->name('episode.create-track');
+    route::get('episodetrack/view/{episodeTrack}', [EpisodeTrackController::class, 'show'])->name('episodeTrack.view');
+    route::get('episodetrack/edit/{episodeTrack}', [EpisodeTrackController::class, 'edit'])->name('episodeTrack.edit');
+    route::post('episodetrack/update/{episodeTrack}', [EpisodeTrackController::class, 'update'])->name('episodeTrack.update');
+    route::post('episodetrack/delete/{EpisodeTrack}', [EpisodeTrackController::class, 'destroy'])->name('episodeTrack.delete');
+
+
 });
 
 

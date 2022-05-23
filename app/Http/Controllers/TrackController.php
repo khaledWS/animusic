@@ -6,6 +6,7 @@ use App\Models\Track;
 use App\Http\Requests\StoreTrackRequest;
 use App\Http\Requests\UpdateTrackRequest;
 use App\Models\Album;
+use Illuminate\Http\Request;
 
 class TrackController extends Controller
 {
@@ -27,7 +28,7 @@ class TrackController extends Controller
     public function create()
     {
         $albums = Album::all();
-        return view('createtrack',compact('albums'));
+        return view('createtrack', compact('albums'));
     }
 
     /**
@@ -46,6 +47,9 @@ class TrackController extends Controller
             } else {
                 $collection['active'] = false;
             }
+            $time = explode(':',$collection['length']);
+            $collection['length'] = (int)$time[0]*60 + (int)$time[1];
+
             Track::create($collection->toArray());
             return redirect()->back();
         } catch (\Exception $ex) {
@@ -61,7 +65,7 @@ class TrackController extends Controller
      */
     public function show(Track $track)
     {
-        //
+        return view('viewtrack', compact('track'));
     }
 
     /**
@@ -72,7 +76,12 @@ class TrackController extends Controller
      */
     public function edit(Track $track)
     {
-        //
+        try {
+            $albums = Album::all();
+            return view('edittrack', compact('albums', 'track'));
+        } catch (\Exception $ex) {
+            redirect()->route('track.index');
+        }
     }
 
     /**
@@ -84,7 +93,21 @@ class TrackController extends Controller
      */
     public function update(UpdateTrackRequest $request, Track $track)
     {
-        //
+        try {
+            $collection = collect($request);
+            $collection->forget(['_token']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            $time = explode(':',$collection['length']);
+            $collection['length'] = (int)$time[0]*60 + (int)$time[1];
+            $track->update($collection->toArray());
+            return redirect()->route('track.view', $track->id);
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**
@@ -95,6 +118,11 @@ class TrackController extends Controller
      */
     public function destroy(Track $track)
     {
-        //
+        try {
+            $track->delete();
+            return redirect('/');
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 }

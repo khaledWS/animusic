@@ -7,7 +7,7 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <h2>Add new Entry</h2>
+                <h2>Edit Entry</h2>
             </div>
             <!--end::Card title-->
         </div>
@@ -15,8 +15,10 @@
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('episode.create-track')}}" autocomplete="off">
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST"
+                action="{{route('episodeTrack.update',$episodeTrack->id)}}" autocomplete="off">
                 @csrf
+                <input type="hidden" name="id" value="{{$episodeTrack->id}}">
                 <!--begin::Input group-->
                 <div class="row mb-7">
                     <div class="col-md-1">
@@ -24,36 +26,30 @@
                         <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                             <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
                             </span>
-                            <input class="form-check-input" name="active" type="checkbox" checked="checked"  />
+                            <input class="form-check-input" name="active" type="checkbox"
+                                @checked($episodeTrack->active) value="{{$episodeTrack->active}}" />
                         </label>
                         <!--end::Option-->
-                        @error('active')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                     <div class="col-md-1">
                         <!--begin::Option-->
                         <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                             <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">unknown
                             </span>
-                            <input class="form-check-input" name="unknown" isChecked="false" type="checkbox"  />
+                            <input class="form-check-input" name="unknown" isChecked="false" type="checkbox"
+                                @checked($episodeTrack->unknown) value="{{$episodeTrack->active}}" />
                         </label>
                         <!--end::Option-->
-                        @error('unknown')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                     <div class="col-md-1">
                         <!--begin::Option-->
                         <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                             <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">new
                             </span>
-                            <input class="form-check-input" name="new" isChecked="false" type="checkbox"  />
+                            <input class="form-check-input" name="new" isChecked="false" type="checkbox"
+                                @checked($episodeTrack->new) value="{{$episodeTrack->active}}" />
                         </label>
                         <!--end::Option-->
-                        @error('new')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
 
                 </div>
@@ -76,17 +72,16 @@
                                 data-placeholder="Select episode" class="form-select form-select-solid">
                                 <option value=""></option>
                                 @isset($episodes)
-                                    @foreach ($episodes as $episode)
-                                    <option @selected(old('episode_id') == $episode->id) value="{{$episode->id}}"><strong class="">{{$episode->series_number}}:</strong> {{$episode->title}}</option>
-                                    @endforeach
+                                @foreach ($episodes as $episode)
+                                <option value="{{$episode->id}}" @selected($episodeTrack->episode_id ==
+                                    $episode->id)><strong class="">{{$episode->series_number}}:</strong>
+                                    {{$episode->title}}</option>
+                                @endforeach
                                 @endisset
                             </select>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-                        @error('episode_id')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
@@ -103,17 +98,15 @@
                             <!--begin::Input-->
                             <select name="track_id" aria-label="Select a track" data-control="select2"
                                 data-placeholder="Select track" class="form-select form-select-solid">
-                                <option value=""></option>
+                                <option disabled selected value=""></option>
                                 @isset($tracks)
                                 @foreach ($tracks as $track)
-                                <option @selected(old('track_id') == $track->id) value="{{$track->id}}">{{$track->title}}</option>
+                                <option value="{{$track->id}}" @selected($episodeTrack->track_id ==
+                                    $track->id)>{{$track->title}}</option>
                                 @endforeach
-                            @endisset
+                                @endisset
                             </select>
                             <!--end::Input-->
-                            @error('track_id')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -129,17 +122,16 @@
                             <!--begin::Label-->
                             <label class="fs-6 fw-bold form-label mt-3">
                                 <span class="required">start time</span>
+                                {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    title="Enter the contact's email."></i> --}}
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="start" class=" form-control form-control-solid"
-                                placeholder="title" value="{{old('start')}}"/>
+                            <input type="text" name="start" class=" form-control form-control-solid" placeholder="title"
+                                value="{{$episodeTrack->start}}" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-                        @error('start')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
@@ -154,14 +146,11 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="end" class=" form-control form-control-solid"
-                                placeholder="title" value="{{old('end')}}"/>
+                            <input type="text" name="end" class=" form-control form-control-solid" placeholder="title"
+                                value="{{$episodeTrack->end}}" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-                        @error('end')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                     <!--end::Col-->
                 </div>
@@ -177,11 +166,8 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <textarea class="form-control form-control-solid" name="notes">{{old('notes')}}</textarea>
+                    <textarea class="form-control form-control-solid" name="notes">{{$episodeTrack->notes}}</textarea>
                     <!--end::Input-->
-                    @error('notes')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
                 <!--end::Input group-->
                 <!--begin::Separator-->

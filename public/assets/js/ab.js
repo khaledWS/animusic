@@ -11,11 +11,12 @@ var DatatableRemoteAjaxDemo = {
                 url: "/episode/episode-track",
                 dataSrc:''
             },
+            orderCellsTop: true,
             columns: [
                 {
                 data: 'id',
                 title: "#",
-                width: "50px",
+                width: "60px",
                 textAlign: "center"
             }, {
                 data: "title",
@@ -28,11 +29,17 @@ var DatatableRemoteAjaxDemo = {
                 data: "start",
                 title: "starts",
                 width: 150,
+                render: function (data){
+                    return new Date(data * 1000).toISOString().substr(14, 5);
+                }
             },
             {
                 data: "end",
                 title: "ends",
                 width: 250,
+                render: function (data){
+                    return new Date(data * 1000).toISOString().substr(14, 5);
+                }
             }, {
                 data: "notes",
                 title: "notes",
@@ -53,6 +60,7 @@ var DatatableRemoteAjaxDemo = {
         // }),
          $(".nav-tabs li a").click(function(){
             t.column(5).search(this.getAttribute('targ')).draw();
+            $('#episode-title').html(titles[this.getAttribute('ep')-1]);
          });
         // t.column(5).search(1).draw();
         t.on( 'order.dt search.dt', function () {

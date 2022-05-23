@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Episode;
 use App\Models\Title;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,22 @@ class AnimeController extends Controller
 
     public function album(Album $album)
     {
-        return view('showalbum',compact('album'));
+
+        return view('showalbum', compact('album'));
     }
     public function title(Title $title)
     {
-        return view('showtitle',compact('title'));
+        // dd($title->episodes->toJson());
+        $episodeTitles = Episode::where('title_id', $title->id)->get('title');
+        $x = collect($episodeTitles->toArray());
+        $titles = collect([]);
+        $x->map(function($element, $key) use ($titles){
+            $titles->push( $element['title']);
+        });
+        $episodeTitles = $titles;
+        // $episodeTitles = json_encode($titles->toJson());
+        // dd($episodeTitles);
+        // dd($episodeTitles);
+        return view('showtitle', compact('title', 'episodeTitles'));
     }
 }

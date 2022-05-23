@@ -35,7 +35,7 @@ class Album extends Model
 
     public function tracks()
     {
-        return $this->hasMany(Track::class,'album_id','id')->orderBy('order');
+        return $this->hasMany(Track::class,'album_id','id')->orderBy('disk')->orderBy('order');
     }
 
     public function displayFormat()

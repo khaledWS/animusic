@@ -61,7 +61,7 @@ class EpisodeController extends Controller
      */
     public function show(Episode $episode)
     {
-        //
+        return view('viewepisode', compact('episode'));
     }
 
     /**
@@ -72,7 +72,12 @@ class EpisodeController extends Controller
      */
     public function edit(Episode $episode)
     {
-        //
+        try {
+            $titles = Title::all();
+            return view('editepisode', compact('titles', 'episode'));
+        } catch (\Exception $ex) {
+            redirect()->route('episode.index');
+        }
     }
 
     /**
@@ -84,7 +89,19 @@ class EpisodeController extends Controller
      */
     public function update(UpdateEpisodeRequest $request, Episode $episode)
     {
-        //
+        try {
+            $collection = collect($request);
+            $collection->forget(['_token']);
+            if ($collection->has('active')) {
+                $collection['active'] = true;
+            } else {
+                $collection['active'] = false;
+            }
+            $episode->update($collection->toArray());
+            return redirect()->route('episode.view');
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 
     /**
@@ -95,6 +112,11 @@ class EpisodeController extends Controller
      */
     public function destroy(Episode $episode)
     {
-        //
+        try {
+            $episode->delete();
+            return redirect('/');
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 }

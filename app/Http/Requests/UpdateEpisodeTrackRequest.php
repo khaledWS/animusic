@@ -13,7 +13,7 @@ class UpdateEpisodeTrackRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateEpisodeTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'episode_id' => 'nullable|exists:episodes,id',
+            'track_id'  => 'nullable|exists:tracks,id',
+            'start' => 'required',
+            'end' => 'required',
+            'notes' => 'nullable|string'
         ];
     }
 }

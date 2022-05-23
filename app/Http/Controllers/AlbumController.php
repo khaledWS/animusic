@@ -125,6 +125,11 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        //
+        try {
+            $album->delete();
+            return redirect('/');
+        } catch (\Exception $ex) {
+            dd($ex);
+        }
     }
 }

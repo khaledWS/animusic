@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTrackRequest extends FormRequest
 {
@@ -25,9 +26,13 @@ class StoreTrackRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'length' => 'required|numeric',
-            'order' => 'required|numeric',
-            'notes' => 'string|nullable'
+            'length' => 'required|string',
+            'disk' => 'numeric',
+            'order' => ['numeric', Rule::unique('tracks','order')->where(function ($query){
+                return $query->where('album_id', $this->album_id)->where('disk',$this->disk);
+            })],
+            'notes' => 'string|nullable',
+            'album_id' => 'nullable|exists:albums,id'
         ];
     }
 }

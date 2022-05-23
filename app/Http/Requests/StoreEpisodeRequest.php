@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEpisodeRequest extends FormRequest
 {
@@ -23,8 +24,15 @@ class StoreEpisodeRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->title_id);
         return [
-            //
+            'title' => 'required|string',
+            'title_id' => 'nullable|exists:titles,id',
+            'season_number' => ['numeric', Rule::unique('episodes','season_number')->where(function ($query){
+                return $query->where('title_id', $this->title_id);
+            })],
+            'series_number' => ['numeric', Rule::unique('episodes','series_number')],
+            'length' => 'numeric'
         ];
     }
 }

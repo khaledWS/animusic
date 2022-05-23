@@ -122,7 +122,17 @@
                                 </thead>
                                 <tbody>
                                         @isset($album->tracks)
+                                        <tr>
+                                            <td colspan="3" class="text-center text-primary">DISK 1</td>
+                                        </tr>
+                                        <?php $x = 0 ?>
                                             @foreach ($album->tracks as $track)
+                                            @if ($track->disk == 2 && $x == 0)
+                                            <tr>
+                                                <td colspan="3" class="text-center text-primary">DISK 2</td>
+                                            </tr>
+                                            <?php $x = 1 ?>
+                                            @endif
                                             <tr>
                                             <td>{{$track->order}}</td>
                                             <td>{{$track->title}}</td>

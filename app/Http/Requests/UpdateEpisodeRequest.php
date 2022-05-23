@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEpisodeRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateEpisodeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,11 @@ class UpdateEpisodeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'title_id' => 'nullable|exists:titles,id',
+            'season_number' => ['numeric', Rule::unique('episodes', 'season_number')->ignore($this->id)],
+            'series_number' => ['numeric', Rule::unique('episodes', 'series_number')->ignore($this->id)],
+            'length' => 'numeric'
         ];
     }
 }

@@ -34,7 +34,7 @@
             <!--begin::Navbar-->
             <div class="d-flex align-items-stretch" id="kt_header_nav">
 
-                {{-- @include('layout.header.__menu') --}}
+                @include('layout.header.__menu')
 
             </div>
             <!--end::Navbar-->

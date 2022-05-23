@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTrackRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateTrackRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,14 @@ class UpdateTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'length' => 'required|string',
+            'disk' => 'numeric',
+            'order' => ['nullable','numeric', Rule::unique('tracks','order')->ignore($this->id)->where(function ($query){
+                return $query->where('album_id', $this->album_id)->where('disk',$this->disk);
+            })],
+            'notes' => 'string|nullable',
+            'album_id' => 'nullable|exists:albums,id'
         ];
     }
 }

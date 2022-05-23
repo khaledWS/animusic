@@ -24,9 +24,11 @@ class StoreEpisodeTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            'start' => 'required|numeric',
-            'end' => 'required|numeric',
-            'notes' => 'string|nullable'
+            'episode_id' => 'nullable|exists:episodes,id',
+            'track_id'  => 'nullable|exists:tracks,id',
+            'start' => 'required',
+            'end' => 'required',
+            'notes' => 'nullable|string'
         ];
     }
 }

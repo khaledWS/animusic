@@ -19,4 +19,16 @@ class Episode extends Model
     {
         return $this->belongsTo(Title::class,'title_id','id');
     }
+
+    public function isActive()
+    {
+        $isActive = $this->active == 1 ? true : false;
+        return $isActive;
+    }
+
+    public function getParentTitle()
+    {
+        $title = $this->title_id == null ? '' : $this->parentTitle->title;
+        return $title;
+    }
 }

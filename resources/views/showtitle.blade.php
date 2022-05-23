@@ -99,13 +99,14 @@
                                     @foreach ($title->episodes as $episode)
                                     <li class="nav-item w-100px me-0">
                                         <a class="nav-link btn btn-sm btn-active-light-primary"
-                                            targ="{{$episode->id}}" data-bs-toggle="tab"
+                                            targ="{{$episode->id}}" ep= "{{$episode->season_number}}" data-bs-toggle="tab"
                                             href="#kt_vtab_pane_3">Episode
                                             {{$episode->season_number}}</a>
                                     </li>
                                     @endforeach
                                 </ul>
                                 <div class="tab-content overflow-auto w-100" id="myTabContent">
+                                    <h3 class="mb-5 mt-3 text-center title" id="episode-title"></h3>
                                     <div class="tab-pane fade show " id="kt_vtab_pane_3"
                                         role="tabpanel">
                                         <table id="kt_datatable_example_3"
@@ -125,9 +126,14 @@
 </div>
 @endsection
 @section('js')
-<script src="{{asset('assets/js/ab.js')}}"></script>
 <script>
+    let titles = [];
+    @foreach ( $episodeTitles as $title)
+    titles.push('{{$title}}');
+    @endforeach
+    console.log(titles);
 </script>
+<script src="{{asset('assets/js/ab.js')}}"></script>
 @endsection
 @section('css')
 @endsection
