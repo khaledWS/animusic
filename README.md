@@ -14,8 +14,8 @@ Note that site is not populated with data yet
  
 This Application is being Made with Laravel with Snactum for authentication, no front end framework is being used as i don’t have much experiance with them 
 
-<img src="https://media.discordapp.net/attachments/626582685057548301/980924409239973968/unknown.png?width=561&height=566" width="600">
+<img src="https://media.discordapp.net/attachments/626582685057548301/980924409239973968/unknown.png" width="600">
 
-<img src="https://media.discordapp.net/attachments/626582685057548301/980924552139907123/unknown.png?width=730&height=566" width="600">
+<img src="https://media.discordapp.net/attachments/626582685057548301/980924552139907123/unknown.png" width="600">
 
-<img src="https://media.discordapp.net/attachments/626582685057548301/980924855446818886/unknown.png?width=354&height=566" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/980924855446818886/unknown.png" width="600">
