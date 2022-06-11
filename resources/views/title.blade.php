@@ -1,4 +1,12 @@
 @extends('layout.index')
+@section('title')
+Attack on Titan Music
+@endsection
+@section('css')
+<style>
+
+</style>
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Row-->
@@ -273,41 +281,46 @@
                     <!--begin::Row-->
                     <div class="row g-5 g-xl-9 mb-5 mb-xl-9 tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="kt_tab_seasons" role="tabpanel">
-                            <div class="row">
-                                @foreach ($titles as $title)
-                                <!--begin::Col-->
-                                <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
-                                    <!--begin::Player card-->
-                                    <div class="m-0">
-                                        <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="{{route('title.show',$title->id)}}">
-                                            <!--begin::Image-->
-                                            <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
-                                                style="height: 266px;background-image:url('{{$title->getImage()}}')">
-                                            </div>
-                                            <!--end::Image-->
-                                            <!--begin::Action-->
-                                            <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-                                                <i class="bi bi-eye-fill fs-2x text-white"></i>
-                                            </div>
-                                            <!--end::Action-->
-                                        </a>
-                                        <!--end::User pic-->
-                                        <!--begin::Info-->
+                            <div class="container">
+                                <div class="row">
+                                    @foreach ($titles as $title)
+                                    <!--begin::Col-->
+                                    <div class="col-sm-3 mb-3 mb-sm-0 mb-lg-10">
+                                        <!--begin::Player card-->
                                         <div class="m-0">
-                                            <!--begin::Title-->
-                                            <a href="{{route('title.show',$title->id)}}"
-                                                class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">{{$title->title}}</a>
-                                            <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$title->number_of_episodes}} Episodes</span>
+                                            <!--begin::User pic-->
+                                            <a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
+                                                href="{{route('title.show',$title->id)}}">
+                                                <!--begin::Image-->
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
+                                                    style="height: 266px;background-image:url('{{$title->getImage()}}')">
+                                                </div>
+                                                <!--end::Image-->
+                                                <!--begin::Action-->
+                                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                                <!--end::Action-->
+                                            </a>
+                                            <!--end::User pic-->
+                                            <!--begin::Info-->
+                                            <div class="m-0">
+                                                <!--begin::Title-->
+                                                <a href="{{route('title.show',$title->id)}}"
+                                                    class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">{{$title->title}}</a>
+                                                <!--end::Title-->
+                                                <span
+                                                    class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$title->number_of_episodes}}
+                                                    Episodes</span>
+                                            </div>
+                                            <!--end::Info-->
                                         </div>
-                                        <!--end::Info-->
+                                        <!--end::Player card-->
                                     </div>
-                                    <!--end::Player card-->
-                                </div>
-                                <!--end::Col-->
-                                @endforeach
+                                    <!--end::Col-->
+                                    @endforeach
 
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="kt_tab_albums" role="tabpanel">
@@ -319,7 +332,8 @@
                                     <!--begin::Player card-->
                                     <div class="m-0">
                                         <!--begin::User pic-->
-                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales" href="{{route('album.show',$album->id)}}">
+                                        <a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
+                                            href="{{route('album.show',$album->id)}}">
                                             <!--begin::Image-->
                                             <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded mb-7"
                                                 style="height: 266px;background-image:url('{{$album->getImage()}}')">
@@ -338,7 +352,9 @@
                                             <a href="{{route('album.show',$album->id)}}"
                                                 class="text-gray-800 text-hover-primary fs-3 fw-bolder d-block mb-2">{{$album->title}}</a>
                                             <!--end::Title-->
-                                            <span class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$album->number_of_tracks}} tracks</span>
+                                            <span
+                                                class="fw-bolder fs-6 text-gray-400 d-block lh-1">{{$album->number_of_tracks}}
+                                                tracks</span>
                                         </div>
                                         <!--end::Info-->
                                     </div>
@@ -357,196 +373,6 @@
             </div>
             <!--end::Player widget 1-->
         </div>
-        <!--end::Col-->
-        <!--begin::Col-->
-        {{-- <div class="col-xl-4">
-            <!--begin::List widget 24-->
-            <div class="card h-xl-100" id="kt_list_widget_24">
-                <!--begin::Header-->
-                <div class="card-header border-0 pt-5">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder text-gray-800">Top Podcaster</span>
-                        <span class="text-gray-400 mt-1 fw-bolder fs-7">8k social visitors</span>
-                    </h3>
-                    <!--begin::Toolbar-->
-                    <div class="card-toolbar">
-                        <a href="#" class="btn btn-sm btn-light">View All</a>
-                    </div>
-                    <!--end::Toolbar-->
-                </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div class="card-body pt-6">
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-28.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Leslie
-                                    Alexander</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-light-primary py-2 px-4 fs-7 fs-bolder"
-                                data-kt-element="follow">Follow</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-29.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Jacob
-                                    Jones</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-primary py-2 px-4 fs-7 fw-bolder"
-                                data-kt-element="follow">Following</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-9.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Ronald
-                                    Richards</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-light-primary py-2 px-4 fs-7 fs-bolder"
-                                data-kt-element="follow">Follow</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-3.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Courtney
-                                    Henry</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-light-primary py-2 px-4 fs-7 fs-bolder"
-                                data-kt-element="follow">Follow</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-27.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Arlene
-                                    McCoy</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-primary py-2 px-4 fs-7 fw-bolder"
-                                data-kt-element="follow">Following</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-5"></div>
-                    <!--end::Separator-->
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <!--begin::Symbol-->
-                        <div class="symbol symbol-circle symbol-60px me-4">
-                            <img src="/metronic8/demo2/assets/media/avatars/300-30.jpg" class="" alt="" />
-                        </div>
-                        <!--end::Symbol-->
-                        <!--begin::Section-->
-                        <div class="d-flex align-items-center flex-row-fluid flex-wrap">
-                            <!--begin:Author-->
-                            <div class="flex-grow-1 me-2">
-                                <a href="/metronic8/demo2/../demo2/dark/pages/user-profile/overview.html"
-                                    class="text-gray-800 text-hover-primary fs-5 fw-boldest">Marvin
-                                    McKinney</a>
-                                <span class="text-gray-400 fw-bold d-block fs-6">Community</span>
-                            </div>
-                            <!--end:Author-->
-                            <!--begin::Follow-->
-                            <button class="btn btn-sm btn-light-primary py-2 px-4 fs-7 fs-bolder"
-                                data-kt-element="follow">Follow</button>
-                            <!--end::Follow-->
-                        </div>
-                        <!--end::Section-->
-                    </div>
-                    <!--end::Item-->
-                </div>
-                <!--end::Body-->
-            </div>
-            <!--end::List widget 24-->
-        </div> --}}
         <!--end::Col-->
     </div>
     <!--end::Row-->

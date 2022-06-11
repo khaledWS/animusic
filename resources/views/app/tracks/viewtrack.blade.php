@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+view track
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -25,20 +28,18 @@
             <!--begin::Form-->
 
             <!--begin::Input group-->
-            <div class="fv-row mb-7">
-                <!--begin::Label-->
-                <label class="fs-6 fw-bold form-label mt-3">
-                    <span>Title</span>
-                </label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input readonly type="text" name="title" class="form-control form-control-solid"
-                    value="{{$track->title}}" />
-                <!--end::Input-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="fv-row row mb-7">
+            <div class="fv-row mb-7 row">
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>Title</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input readonly type="text" name="title" class="form-control form-control-solid"
+                        value="{{$track->title}}" />
+                    <!--end::Input-->
+                </div>
                 <div class="col">
                     <!--begin::Label-->
                     <label class="fs-6 fw-bold form-label mt-3">
@@ -46,28 +47,25 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input readonly type="text" name="album_id" class="form-control form-control-solid"
-                        value="{{$track->getAlbum()}}" />
-                    <!--end::Input-->
-                </div>
-                <div class="col">
-                    <!--begin::Label-->
-                    <label class="fs-6 fw-bold form-label mt-3">
-                        <span>disk</span>
-                    </label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="disk" class="form-control form-control-solid" placeholder="disk"
-                        value="{{$track->disk}}" />
-                    @error('disk')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    <input readonly type="text" name="album" class="form-control form-control-solid"
+                        value="{{$track->album->title}}" />
                     <!--end::Input-->
                 </div>
             </div>
             <!--end::Input group-->
-            <!--begin::Row-->
-            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+            <!--begin::Input group-->
+            <div class="fv-row row mb-7">
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>composer</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input readonly type="text" name="composer" class="form-control form-control-solid"
+                        value="{{$track->composer->en_name}}" />
+                    <!--end::Input-->
+                </div>
                 <!--begin::Col-->
                 <div class="col">
                     <!--begin::Input group-->
@@ -85,18 +83,91 @@
                     <!--end::Input group-->
                 </div>
                 <!--end::Col-->
+
+            </div>
+            <!--end::Input group-->
+            <!--begin::Row-->
+            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>disk</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input readonly type="text" name="disk" class="form-control form-control-solid" placeholder="disk"
+                        value="{{$track->disk}}" />
+                    @error('disk')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    <!--end::Input-->
+                </div>
                 <!--begin::Col-->
                 <div class="col">
                     <!--begin::Input group-->
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="fs-6 fw-bold form-label mt-3">
-                            <span>Order in Album</span>
+                            <span>Order in Album in disk</span>
                         </label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input readonly type="text" name="order" class="form-control form-control-solid"
                             value="{{$track->order}}" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>spotify</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input readonly type="text" name="disk" class="form-control form-control-solid" placeholder="disk"
+                        value="{{$track->spotify}}" />
+                    @error('disk')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    <!--end::Input-->
+                </div>
+                <!--begin::Col-->
+                <div class="col">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>yt official</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input readonly type="text" name="order" class="form-control form-control-solid"
+                            value="{{$track->yt_official}}" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>yt unofficial</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input readonly type="text" name="order" class="form-control form-control-solid"
+                            value="{{$track->yt_unofficial}}" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->

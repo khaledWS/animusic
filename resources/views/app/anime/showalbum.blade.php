@@ -1,4 +1,17 @@
 @extends('layout.index')
+@section('title')
+{{$album->title}}
+@endsection
+@section('css')
+<style>
+    @media only screen and (max-width: 500px) {
+        #title-card {
+            background: linear-gradient(90deg, rgba(15, 49, 75, 1) 0%, rgba(45, 51, 103, 1) 100%);
+            background-image: none;
+        }
+    }
+</style>
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <div class="d-flex flex-column">
@@ -7,7 +20,7 @@
             <!--begin::Col-->
             <div class="col-xl-12">
                 <!--begin::Engage widget 6-->
-                <div class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
+                <div id="title-card" class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
                     style="background-color:#020202;background-image:url('{{$album->getImage()}}'),linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between flex-column ps-xl-18">
@@ -77,13 +90,18 @@
                         <div class="pb-5 fs-6">
                             <!--begin::Details item-->
                             <div class="fw-bolder mt-5">Composer</div>
-                            <div class="text-gray-600">{{$album->composer}}</div>
+                            @foreach ($album->getComposerIdName() as $key => $comp)
+                            <div class="text-gray-600">
+                                <a href="">{{$comp}}</a>
+                            </div>
+                            @endforeach
                             <!--end::Details item-->
                             <!--begin::Details item-->
                             <div class="fw-bolder mt-5">Release date</div>
                             <div class="text-gray-600">{{$album->date_released}}</div>
                             <!--end::Details item-->
-                            {{-- <!--begin::Details item-->
+                            {{--
+                            <!--begin::Details item-->
                             <div class="fw-bolder mt-5 ">Label</div>
                             <div class="text-gray-600">
                                 Pony Canyon</div>
@@ -112,35 +130,38 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped gy-7 gs-7">
+                            <table class="table table-striped  gy-7 gs-7">
                                 <thead>
                                     <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                                        <th class="min-w-10px">#</th>
-                                        <th class="min-w-400px">title</th>
-                                        <th class="min-w-100px">length</th>
+                                        <th class="w-md-10px">#</th>
+                                        <th class="w-md-600px">title</th>
+                                        <th class="w-md-100px">length</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        @isset($album->tracks)
-                                        <tr>
-                                            <td colspan="3" class="text-center text-primary">DISK 1</td>
-                                        </tr>
-                                        <?php $x = 0 ?>
-                                            @foreach ($album->tracks as $track)
-                                            @if ($track->disk == 2 && $x == 0)
-                                            <tr>
-                                                <td colspan="3" class="text-center text-primary">DISK 2</td>
-                                            </tr>
-                                            <?php $x = 1 ?>
-                                            @endif
-                                            <tr>
-                                            <td>{{$track->order}}</td>
-                                            <td>{{$track->title}}</td>
-                                            <td>{{$track->displayFormat()}}</td>
-                                        </tr>
-                                            @endforeach
-                                        @endisset
-
+                                    @isset($album->tracks)
+                                    <tr>
+                                        <td colspan="3"
+                                            style="background-color:#151521; --bs-table-accent-bg:none; color:#c29b69"
+                                            class="text-center">DISK 1</td>
+                                    </tr>
+                                    <?php $x = 0 ?>
+                                    @foreach ($album->tracks as $track)
+                                    @if ($track->disk == 2 && $x == 0)
+                                    <tr>
+                                        <td colspan="3"
+                                            style="background-color:#151521; --bs-table-accent-bg:none; color:#c29b69"
+                                            class="text-center">DISK 2</td>
+                                    </tr>
+                                    <?php $x = 1 ?>
+                                    @endif
+                                    <tr>
+                                        <td>{{$track->order}}</td>
+                                        <td> <a href="/track/{{$track->id}}">{{$track->title}}</a></td>
+                                        <td>{{$track->displayFormat()}}</td>
+                                    </tr>
+                                    @endforeach
+                                    @endisset
                                 </tbody>
                             </table>
                         </div>

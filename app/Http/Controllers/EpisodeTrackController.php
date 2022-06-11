@@ -29,7 +29,7 @@ class EpisodeTrackController extends Controller
     {
         $tracks = Track::all();
         $episodes = Episode::all();
-        return view('createepisodetrack',compact('tracks','episodes'));
+        return view('app.episodes-tracks.createepisodetrack',compact('tracks','episodes'));
     }
 
     /**
@@ -90,7 +90,7 @@ class EpisodeTrackController extends Controller
      */
     public function show(EpisodeTrack $episodeTrack)
     {
-        return view('viewepisodetrack', compact('episodeTrack'));
+        return view('app.episodes-tracks.viewepisodetrack', compact('episodeTrack'));
     }
 
     /**
@@ -104,7 +104,7 @@ class EpisodeTrackController extends Controller
         try {
             $tracks = Track::all();
             $episodes = Episode::all();
-            return view('editepisodetrack', compact('tracks', 'episodes','episodeTrack'));
+            return view('app.episodes-tracks.editepisodetrack', compact('tracks', 'episodes','episodeTrack'));
         } catch (\Exception $ex) {
             redirect()->route('episodetrack.index');
         }

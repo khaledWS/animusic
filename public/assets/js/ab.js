@@ -16,7 +16,7 @@ var DatatableRemoteAjaxDemo = {
                 {
                 data: 'id',
                 title: "#",
-                width: "60px",
+                width: "15%",
                 textAlign: "center"
             }, {
                 data: "title",

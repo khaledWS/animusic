@@ -25,14 +25,13 @@ class UpdateAlbumRequest extends FormRequest
     public function rules()
     {
         return [
-            'thumbnail' => 'required_if:thumbnail_remove,1',
             'title' => 'required|string',
             'order' => ['numeric', Rule::unique('albums','order')->ignore($this->id)],
-            'number_of_episodes' =>'numeric',
-            'type' => 'in:canon,recap,spinoff,filler,extra',
-            'format' => 'in:tv,movie,oda',
-            'start_date' => 'date',
-            'end_date'=> 'date'
+            'number_of_tracks' => 'nullable|numeric',
+            'title_id' => 'nullable|exists:titles,id',
+            'composer' => 'nullable|exists:composers,id',
+            'album_length' => 'nullable|string',
+            'date_released' => 'nullable|date'
         ];
     }
 }

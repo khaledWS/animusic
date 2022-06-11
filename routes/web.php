@@ -6,11 +6,6 @@ use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\EpisodeTrackController;
 use App\Http\Controllers\TitleController;
 use App\Http\Controllers\TrackController;
-use App\Models\Album;
-use App\Models\Episode;
-use App\Models\EpisodeTrack;
-use App\Models\Title;
-use App\Models\Track;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -44,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     /**
      * Titles Routes
      */
+    route::get('title/index', [TitleController::class, 'index'])->name('title.new');
     route::get('title/new', [TitleController::class, 'create'])->name('title.new');
     route::post('title/create', [TitleController::class, 'store'])->name('title.create');
     route::get('title/view/{title}', [TitleController::class, 'show'])->name('title.view');
@@ -51,25 +47,35 @@ Route::middleware(['auth'])->group(function () {
     route::post('title/update/{title}', [TitleController::class, 'update'])->name('title.update');
     route::post('title/delete/{title}', [TitleController::class, 'destroy'])->name('title.delete');
 
+    route::get('title/getrecords', [TitleController::class, 'getRecords'])->name('title.getrecords');
+    route::post('title/checkorder', [TitleController::class, 'checkOrder'])->name('title.checkorder');
+
     /**
      * Albums Routes
      */
+    route::get('album/index', [AlbumController::class, 'index'])->name('album.index');
     route::get('/album/new', [AlbumController::class, 'create'])->name('album.new');
     route::post('album/create', [AlbumController::class, 'store'])->name('album.create');
     route::get('album/view/{album}', [AlbumController::class, 'show'])->name('album.view');
     route::get('album/edit/{album}', [AlbumController::class, 'edit'])->name('album.edit');
     route::post('album/update/{album}', [AlbumController::class, 'update'])->name('album.update');
     route::post('album/delete/{album}', [AlbumController::class, 'destroy'])->name('album.delete');
+    route::get('album/getrecords', [AlbumController::class, 'getRecords'])->name('album.getrecords');
+    route::post('album/checkorder', [AlbumController::class, 'checkOrder'])->name('album.checkorder');
+
 
     /**
      * Tracks Routes
      */
+    route::get('/track/index', [TrackController::class, 'index'])->name('track.index');
     route::get('/track/new', [TrackController::class, 'create'])->name('track.new');
     route::post('/track/create', [TrackController::class, 'store'])->name('track.create');
     route::get('track/view/{track}', [TrackController::class, 'show'])->name('track.view');
     route::get('track/edit/{track}', [TrackController::class, 'edit'])->name('track.edit');
     route::post('track/update/{track}', [TrackController::class, 'update'])->name('track.update');
     route::post('track/delete/{track}', [TrackController::class, 'destroy'])->name('track.delete');
+    route::get('track/getrecords', [TrackController::class, 'getRecords'])->name('track.getrecords');
+    route::post('track/checkorder', [TrackController::class, 'checkOrder'])->name('track.checkorder');
 
     /**
      * Episodes Routes
@@ -92,16 +98,18 @@ Route::middleware(['auth'])->group(function () {
     route::get('episodetrack/edit/{episodeTrack}', [EpisodeTrackController::class, 'edit'])->name('episodeTrack.edit');
     route::post('episodetrack/update/{episodeTrack}', [EpisodeTrackController::class, 'update'])->name('episodeTrack.update');
     route::post('episodetrack/delete/{EpisodeTrack}', [EpisodeTrackController::class, 'destroy'])->name('episodeTrack.delete');
-
-
 });
 
 
 Route::get('/', [AnimeController::class, 'index'])->name('title.index');
 route::get('title/{title}', [AnimeController::class, 'title'])->name('title.show');
 route::get('/album/{album}', [AnimeController::class, 'album'])->name('album.show');
+Route::get('/track/{track}', [AnimeController::class, 'track'])->name('track.show');
 route::get('/episode/episode-track', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
 
+Route::get('/error', function () {
+    return view('error-page');
+})->name('error');
 
 
 

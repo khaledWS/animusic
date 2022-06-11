@@ -1,4 +1,18 @@
 @extends('layout.index')
+@section('title')
+{{$title->title}}
+@endsection
+@section('css')
+<link href="{{asset('assets/plugins/custom/datatables/datatables.dark.bundle.css')}}" rel="stylesheet" type="text/css" />
+<style>
+@media only screen and (max-width: 500px) {
+  #title-card{
+      background: linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);
+      background-image:  none;
+  }
+}
+</style>
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <div class="d-flex flex-column">
@@ -7,7 +21,7 @@
             <!--begin::Col-->
             <div class="col-xl-12">
                 <!--begin::Engage widget 6-->
-                <div class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
+                <div id="title-card" class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
                     style="background-color:#020202;background-image:url('{{$title->getImage()}}'),linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between flex-column ps-xl-18">
@@ -75,7 +89,7 @@
                     <div class="card-body">
                         <div class="pb-5 fs-6">
                             <!--begin::Details item-->
-                            <div class="fw-bolder mt-5 ">Albums Released for this Season</div>
+                            <div class="fw-bolder mt-5 mb-1">Albums Released for this Season</div>
                             @isset($title->album)
                             @foreach ($title->album as $album)
                             <a href="{{route('album.show',$album->id)}}">
@@ -128,12 +142,12 @@
 @section('js')
 <script>
     let titles = [];
-    @foreach ( $episodeTitles as $title)
+    @foreach ($episodeTitles as $title)
     titles.push('{{$title}}');
     @endforeach
     console.log(titles);
 </script>
 <script src="{{asset('assets/js/ab.js')}}"></script>
+<script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
 @endsection
-@section('css')
-@endsection
+

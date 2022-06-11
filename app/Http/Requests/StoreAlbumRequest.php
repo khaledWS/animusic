@@ -25,13 +25,12 @@ class StoreAlbumRequest extends FormRequest
     public function rules()
     {
         return [
-            'thumbnail' => 'required',
             'title' => 'required|string',
-            'order' => ['numeric', Rule::unique('titles','order')],
+            'order' => ['numeric', Rule::unique('albums','order')],
             'number_of_tracks' => 'numeric',
             'title_id' => 'nullable|exists:titles,id',
-            'composer' => 'required|string',
-            'album_length' => 'required|string',
+            'composer[]' => 'exists:composers,id',
+            'album_length' => 'string',
             'date_released' => 'date'
         ];
     }

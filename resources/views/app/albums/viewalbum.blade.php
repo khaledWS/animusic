@@ -98,7 +98,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input readonly type="text" name="composer" class="form-control form-control-solid"
-                            placeholder="composer" value="{{$album->composer}}" />
+                            placeholder="composer" value="{{implode(', ', $album->getComposers()) }}" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->

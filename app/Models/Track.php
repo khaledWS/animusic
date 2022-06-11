@@ -18,6 +18,11 @@ class Track extends Model
         return $this->belongsTo(Album::class, 'album_id', 'id');
     }
 
+    public function composer()
+    {
+        return $this->hasOne(composer::class, 'id', 'composer_id');
+    }
+
 
     public function displayFormat()
     {

@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+edit title
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,35 +10,36 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <h2>{{$title->id.' :'.$title->title}}</h2>
+                <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
+                <!--end::Svg Icon-->
+                <h2>Edit Title</h2>
             </div>
             <!--end::Card title-->
-            <div class="tool-bar">
-                <a href="{{route('title.edit',$title->id)}}"><button  data-kt-contacts-type="edit" class="btn btn-light me-3 btn-active-info">Edit</button></a>
-                <a ><button name="delete" data-kt-contacts-type="delete" class="btn btn-light me-3 btn-active-danger">Delete</button></a>
-            </div>
         </div>
         <!--end::Card header-->
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            {{-- <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('title.create')}}" enctype="multipart/form-data">
-                @csrf --}}
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST"
+                action="{{route('title.update',$title->id)}}" enctype="multipart/form-data" autocomplete="off">
+                @csrf
                 <!--begin::Input group-->
+                <input type="hidden" name="id" value="{{$title->id}}">
                 <div class="mb-7">
-                    {{-- <!--begin::Image input-->
-                    <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
+                    <!--begin::Image input-->
+                    <div class="image-input image-input-outline mb-3" data-kt-image-input="true"
                         style="background-image: url({{asset('assets/media/svg/files/dark/blank-image-dark.svg')}})">
                         <!--begin::Preview existing avatar-->
-                        <div class="image-input-wrapper w-150px h-150px"></div>
+                        <div class="image-input-wrapper w-150px h-150px"
+                            style="background-image: url({{asset($title->getImage())}})"></div>
                         <!--end::Preview existing avatar-->
                         <!--begin::Label-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Thumbnail">
+                            data-kt-image-input-action="change" data-bs-toggle="tooltip" title="change Thumbnail">
                             <i class="bi bi-pencil-fill fs-7"></i>
                             <!--begin::Inputs-->
-                            <input readonly type="file" name="thumbnail" accept=".png, .jpg, .jpeg, .webp" />
-                            <input readonly type="hidden" name="thumbnail_remove" />
+                            <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg .webp" />
+                            <input type="hidden" name="thumbnail_remove" />
                             <!--end::Inputs-->
                         </label>
                         <!--end::Label-->
@@ -55,8 +59,7 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <!--end::Image input--> --}}
-                    <img src="{{$title->getImage()}}" width="300" alt="">
+                    <!--end::Image input-->
 
                 </div>
                 <!--end::Input group-->
@@ -70,7 +73,8 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input readonly value="{{$title->title}}" type="text" name="title" class="form-control form-control-solid bg-black" placeholder="title" />
+                    <input type="text" value="{{$title->title}}" name="title" class="form-control form-control-solid"
+                        placeholder="title" />
                     <!--end::Input-->
                     @error('title')
                     <span class="text-danger">{{ $message }}</span>
@@ -89,7 +93,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input readonly type="text" name="number_of_episodes" class="form-control form-control-solid bg-black"
+                            <input type="number" name="number_of_episodes" class="form-control form-control-solid"
                                 placeholder="number of episodes" value="{{$title->number_of_episodes}}" />
                             <!--end::Input-->
                             @error('number_of_episodes')
@@ -107,9 +111,10 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input readonly type="text" name="order" class="form-control form-control-solid bg-black"
+                            <input type="number" id="order" name="order" class="form-control form-control-solid"
                                 placeholder="order" value="{{$title->order}}" />
                             <!--end::Input-->
+                            <span class="input-info"></span>
                             @error('order')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -132,18 +137,16 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input readonly value="{{$title->type}}" type="text" name="number_of_episodes" class="form-control form-control-solid bg-black"
-                        placeholder="number of episodes" />
-                            {{-- <select name="type" aria-label="Select a type" data-minimum-results-for-search="Infinity"
+                            <select name="type" aria-label="Select a type" data-minimum-results-for-search="Infinity"
                                 data-control="select2" data-placeholder="Select type"
                                 class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="canon">canon</option>
-                                <option value="recap">recap</option>
-                                <option value="spinoff">spinoff</option>
-                                <option value="filler">filler</option>
-                                <option value="extra">extra</option>
-                            </select> --}}
+                                <option @selected($title->type == 'canon') value="canon">canon</option>
+                                <option @selected($title->type == 'recap') value="recap">recap</option>
+                                <option @selected($title->type == 'spinoff') value="spinoff">spinoff</option>
+                                <option @selected($title->type == 'filler') value="filler">filler</option>
+                                <option @selected($title->type == 'extra') value="extra">extra</option>
+                            </select>
                             <!--end::Input-->
                             @error('type')
                             <span class="text-danger">{{ $message }}</span>
@@ -159,11 +162,13 @@
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="fs-6 fw-bold form-label mt-3">
-                                <span >start date</span>
+                                <span>start date</span>
                             </label>
                             <!--end::Label-->
                             <div class="w-100">
-                                <input readonly value="{{$title->start_date}}" class="bg-black form-control form-control-solid" name="start_date" placeholder="Pick date rage"/>
+                                <input class="form-control form-control-solid" name="start_date"
+                                    placeholder="Pick date rage" id="kt_daterangepicker_3"
+                                    value="{{$title->start_date}}" />
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -188,16 +193,14 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input readonly value="{{$title->format}}" type="text" name="number_of_episodes" class="bg-black form-control form-control-solid"
-                        placeholder="number of episodes" />
-                            {{-- <select name="format" aria-label="Select a format"
+                            <select name="format" aria-label="Select a format"
                                 data-minimum-results-for-search="Infinity" data-control="select2"
                                 data-placeholder="Select format" class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="tv">TV</option>
-                                <option value="movie">movie</option>
-                                <option value="oda">ODA</option>
-                            </select> --}}
+                                <option @selected($title->format == 'tv') value="tv">TV</option>
+                                <option @selected($title->format == 'movie') value="movie">movie</option>
+                                <option @selected($title->format == 'oda') value="oda">ODA</option>
+                            </select>
                             <!--end::Input-->
                             @error('format')
                             <span class="text-danger">{{ $message }}</span>
@@ -218,13 +221,15 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input readonly class="bg-black form-control form-control-solid" name="end_date" placeholder="Pick date rage" value="{{$title->end_date}}" />
+                            <input class="form-control form-control-solid" name="end_date" placeholder="Pick date rage"
+                                id="kt_daterangepicker_4" value="{{$title->end_date}}" />
                             <!--end::Input-->
                             @error('end_date')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <!--end::Input group-->
+
                     </div>
                     <!--end::Col-->
                 </div>
@@ -232,39 +237,39 @@
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input readonly class="form-check-input " name="active" type="checkbox" @checked($title->isActive())  value="{{$title->active}}" />
-                    </label>
+                    <div class="form-check form-check-custom form-check-solid">
+                        <input name="active" class="form-check-input" @checked($title->active) type="checkbox" @checked(old('active'))
+                            id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Active
+                        </label>
+                    </div>
                     <!--end::Option-->
 
                 </div>
                 <!--end::Input group-->
-                @error('active')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
-                <!--begin::Separator-->
-                <div class="separator mb-6"></div>
-                <!--end::Separator-->
-                <!--begin::Action buttons-->
-                <div class="d-flex justify-content-end">
-                    {{-- <!--begin::Button-->
-                    <button type="reset" data-kt-contacts-type="cancel" class="btn btn-light me-3">Cancel</button>
-                    <!--end::Button-->
-                    <!--begin::Button-->
-                    <button type="submit" data-kt-contacts-type="submit" class="btn btn-primary">
-                        <span class="indicator-label">Save</span>
-                        <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                    </button>
-                    <!--end::Button--> --}}
-                    <form id="delete" action="{{route('title.delete',$title->id)}}" method="POST">
-                        @csrf
-                    </form>
-                </div>
-                <!--end::Action buttons-->
-            {{-- </form> --}}
+                    @error('active')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    <!--begin::Separator-->
+                    <div class="separator mb-6"></div>
+                    <!--end::Separator-->
+                    <!--begin::Action buttons-->
+                    <div class="d-flex justify-content-end">
+                        <!--begin::Button-->
+                        <button type="back" onclick="history.back();" data-kt-contacts-type="cancel"
+                            class="btn btn-light me-3">Cancel</button>
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="submit" data-kt-contacts-type="submit" class="btn btn-primary">
+                            <span class="indicator-label">Save</span>
+                            <span class="indicator-progress">Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                        </button>
+                        <!--end::Button-->
+                    </div>
+                    <!--end::Action buttons-->
+            </form>
             <!--end::Form-->
         </div>
         <!--end::Card body-->
@@ -274,24 +279,66 @@
 @endsection
 @section('js')
 <script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$('button[name="delete"]').on('click', function(){
-    $('#delete').submit();
+    $("#kt_daterangepicker_3").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$("#kt_daterangepicker_4").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$("#order").keyup(function() {
+    var value = $(this).val();
+    var textInfo = $('#order').next('.input-info');
+    if(value == ''){
+            textInfo.html('');
+            return ;
+    };
+ timeout = setTimeout(function(){
+    $.ajax({
+        type: "POST",
+        url: "/title/checkorder",
+        headers : {
+            'X-CSRF-TOKEN' : "{{ csrf_token()}}"
+        },
+        data: {
+          'order': value,
+          'title': $("[name=id]").val()
+        },
+        dataType: "text",
+        success: function(response) {
+          // hide image
+          response = JSON.parse(response);
+          console.log(response.hasOwnProperty('result'));
+          if(response.result == 1){
+            textInfo.removeClass();
+            textInfo.html('This Order is avilable');
+            textInfo.addClass('text-success');
+            textInfo.addClass('input-info');
+          }
+          else if(response.result == 0){
+            textInfo.removeClass();
+            textInfo.html('This Order is taken by [ '+response.data+' ]');
+            textInfo.addClass('text-info');
+            textInfo.addClass('input-info');
+          }
+          else if (response.result == 2){
+            textInfo.removeClass();
+            textInfo.html('id belongs to this title');
+            textInfo.addClass('text-info');
+            textInfo.addClass('input-info');
+          }
+          else{
+            textInfo.removeClass();
+            textInfo.html('invalid input');
+            textInfo.addClass('text-danger');
+            textInfo.addClass('input-info');
+          }
+        //   $(#span_result .loader).hide();
+
+        //   if (value == $(that).val()) {
+        //     $("#span_result").html(html)
+          }
+        })
+    }, 400);
 });
 </script>
 @endsection

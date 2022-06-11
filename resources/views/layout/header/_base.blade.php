@@ -22,12 +22,12 @@
         </div>
         <!--end::Heaeder menu toggle-->
         <!--begin::Header Logo-->
-        {{-- <div class="header-logo me-5 me-md-10 flex-grow-1 flex-lg-grow-0">
+        <div class="header-logo me-5 me-md-10 flex-grow-1 flex-lg-grow-0">
             <a href="?page=index">
-                <img alt="Logo" src="assets/media/logos/logo-demo2.png" class="logo-default h-25px" />
-                <img alt="Logo" src="assets/media/logos/logo-demo2-sticky.png" class="logo-sticky h-25px" />
+                <img alt="Logo" src="{{asset('assets/media/mine/music-2-256.ico')}}" class="logo-default h-25px" />
+                {{-- <img alt="Logo" src="assets/media/logos/logo-demo2-sticky.png" class="logo-sticky h-25px" /> --}}
             </a>
-        </div> --}}
+        </div>
         <!--end::Header Logo-->
         <!--begin::Wrapper-->
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">

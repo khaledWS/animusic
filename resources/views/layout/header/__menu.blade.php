@@ -18,7 +18,7 @@
             </a>
             @endauth
         </div>
-        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start"
+        {{-- <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start"
             class="menu-item menu-lg-down-accordion me-lg-1">
             <span class="menu-link py-3">
                 <span class="menu-title">Explore</span>
@@ -26,16 +26,20 @@
             </span>
             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-rounded-0 py-lg-4 w-lg-225px">
                 <div class="menu-item">
-                    <a class="menu-link py-3" href="/"
-                        title="Check out over 200 in-house components, plugins and ready for use solutions"
-                        data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
-                        data-bs-placement="right">
+                    <a class="menu-link py-3" href="/">
                         </span>
                         <span class="menu-title">main page</span>
                     </a>
                 </div>
             </div>
+        </div> --}}
+        <div class="menu-item">
+            <a class="menu-link py-3" href="/">
+                </span>
+                <span class="menu-title">main page</span>
+            </a>
         </div>
+
     </div>
     <!--end::Menu-->
 </div>

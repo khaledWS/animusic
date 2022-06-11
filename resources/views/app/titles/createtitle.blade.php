@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+New Title
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,19 +10,7 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
-                <span class="svg-icon svg-icon-1 me-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
-                            fill="currentColor" />
-                        <path opacity="0.3"
-                            d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
-                            fill="currentColor" />
-                    </svg>
-                </span>
-                <!--end::Svg Icon-->
-                <h2>Add new Entry</h2>
+                <h2>Add new Title</h2>
             </div>
             <!--end::Card title-->
         </div>
@@ -27,7 +18,8 @@
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('title.create')}}" enctype="multipart/form-data">
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('title.create')}}"
+                enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <!--begin::Input group-->
                 <div class="mb-7">
@@ -77,7 +69,8 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title" />
+                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title"
+                        value="{{old('title')}}" />
                     <!--end::Input-->
                     @error('title')
                     <span class="text-danger">{{ $message }}</span>
@@ -96,7 +89,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="number_of_episodes" class="form-control form-control-solid"
+                            <input type="number" name="number_of_episodes" class="form-control form-control-solid"
                                 placeholder="number of episodes" value="{{old('number_of_episodes')}}" />
                             <!--end::Input-->
                             @error('number_of_episodes')
@@ -114,9 +107,10 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="order" class="form-control form-control-solid"
-                                placeholder="order" value="{{old('order',$lastOrder)}}" />
+                            <input id="order" type="number" name="order" class="form-control form-control-solid"
+                                placeholder="order" autocomplete="off" value="{{old('order')}}" />
                             <!--end::Input-->
+                            <span class="input-info"></span>
                             @error('order')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -143,11 +137,11 @@
                                 data-control="select2" data-placeholder="Select type"
                                 class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="canon">canon</option>
-                                <option value="recap">recap</option>
-                                <option value="spinoff">spinoff</option>
-                                <option value="filler">filler</option>
-                                <option value="extra">extra</option>
+                                <option @selected(old('type')=='canon' ) value="canon">canon</option>
+                                <option @selected(old('type')=='recap' ) value="recap">recap</option>
+                                <option @selected(old('type')=='spinoff' ) value="spinoff">spinoff</option>
+                                <option @selected(old('type')=='filler' ) value="filler">filler</option>
+                                <option @selected(old('type')=='extra' ) value="extra">extra</option>
                             </select>
                             <!--end::Input-->
                             @error('type')
@@ -164,11 +158,12 @@
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="fs-6 fw-bold form-label mt-3">
-                                <span >start date</span>
+                                <span>start date</span>
                             </label>
                             <!--end::Label-->
                             <div class="w-100">
-                                <input class="form-control form-control-solid" name="start_date" placeholder="Pick date rage" id="kt_daterangepicker_3"/>
+                                <input class="form-control form-control-solid" name="start_date" placeholder="Pick date"
+                                    id="kt_daterangepicker_3" value="{{old('start_date')}}" />
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -197,9 +192,9 @@
                                 data-minimum-results-for-search="Infinity" data-control="select2"
                                 data-placeholder="Select format" class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option value="tv">TV</option>
-                                <option value="movie">movie</option>
-                                <option value="oda">ODA</option>
+                                <option @selected(old('format')=='tv' ) value="tv">TV</option>
+                                <option @selected(old('format')=='movie' ) value="movie">movie</option>
+                                <option @selected(old('format')=='oda' ) value="oda">ODA</option>
                             </select>
                             <!--end::Input-->
                             @error('format')
@@ -221,7 +216,8 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class="form-control form-control-solid" name="end_date" placeholder="Pick date rage" id="kt_daterangepicker_4"/>
+                            <input class="form-control form-control-solid" name="end_date" placeholder="Pick date"
+                                id="kt_daterangepicker_4" value="{{old('end_date')}}" />
                             <!--end::Input-->
                             @error('end_date')
                             <span class="text-danger">{{ $message }}</span>
@@ -235,11 +231,13 @@
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input class="form-check-input" name="active" type="checkbox" checked="checked" value="" />
-                    </label>
+                    <div class="form-check form-check-custom form-check-solid">
+                        <input name="active" class="form-check-input" type="checkbox" @checked(old('active'))
+                            id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Active
+                        </label>
+                    </div>
                     <!--end::Option-->
 
                 </div>
@@ -274,21 +272,78 @@
 @endsection
 @section('js')
 <script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
+    //     $("#kt_daterangepicker_3").daterangepicker({
+//         singleDatePicker: true,
+//         showDropdowns: true,
+//         minYear: 1901,
+//         maxYear: parseInt(moment().format("YYYY"),10)
+//     }, function(start, end, label) {
+//     }
+// );
+// $("#kt_daterangepicker_4").daterangepicker({
+//         singleDatePicker: true,
+//         showDropdowns: true,
+//         minYear: 1901,
+//         maxYear: parseInt(moment().format("YYYY"),10)
+//     }, function(start, end, label) {
+//     }
+// );
+$("#kt_daterangepicker_3").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$("#kt_daterangepicker_4").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$("#order").keyup(function() {
+    var value = $(this).val();
+    var textInfo = $('#order').next('.input-info');
+    if(value == ''){
+            textInfo.html('');
+            return ;
+    };
+ timeout = setTimeout(function(){
+    $.ajax({
+        type: "POST",
+        url: "/title/checkorder",
+        headers : {
+            'X-CSRF-TOKEN' : "{{ csrf_token()}}"
+        },
+        data: {
+          'order': value
+        },
+        dataType: "text",
+        success: function(response) {
+          // hide image
+          response = JSON.parse(response);
+          console.log(response.hasOwnProperty('result'));
+          if(response.result == 1){
+            textInfo.removeClass();
+            textInfo.html('This Order is avilable');
+            textInfo.addClass('text-success');
+            textInfo.addClass('input-info');
+          }
+          else if(response.result == 0){
+            textInfo.removeClass();
+            textInfo.html('This Order is taken by [ '+response.data+' ]');
+            textInfo.addClass('text-info');
+            textInfo.addClass('input-info');
+          }
+          else{
+            textInfo.removeClass();
+            textInfo.html('invalid input');
+            textInfo.addClass('text-danger');
+            textInfo.addClass('input-info');
+          }
+        //   $(#span_result .loader).hide();
+
+        //   if (value == $(that).val()) {
+        //     $("#span_result").html(html)
+          }
+        })
+    }, 400);
+});
+
+
+
 </script>
 @endsection

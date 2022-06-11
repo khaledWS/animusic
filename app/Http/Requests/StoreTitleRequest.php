@@ -25,7 +25,6 @@ class StoreTitleRequest extends FormRequest
     public function rules()
     {
         return [
-            'thumbnail' => 'required',
             'title' => 'required|string',
             'order' => ['numeric', Rule::unique('titles','order')],
             'number_of_episodes' =>'numeric',

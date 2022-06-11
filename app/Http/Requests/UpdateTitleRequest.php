@@ -25,7 +25,6 @@ class UpdateTitleRequest extends FormRequest
     public function rules()
     {
         return [
-            'thumbnail' => 'required_if:thumbnail_remove,1',
             'title' => 'required|string',
             'order' => ['numeric', Rule::unique('titles','order')->ignore($this->id)],
             'number_of_episodes' =>'numeric',

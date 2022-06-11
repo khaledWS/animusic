@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+Edit Album
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,19 +10,7 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
-                <span class="svg-icon svg-icon-1 me-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
-                            fill="currentColor" />
-                        <path opacity="0.3"
-                            d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
-                            fill="currentColor" />
-                    </svg>
-                </span>
-                <!--end::Svg Icon-->
-                <h2>Add new Album</h2>
+                <h2>Edit Album</h2>
             </div>
             <!--end::Card title-->
         </div>
@@ -27,15 +18,18 @@
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('album.create')}}" enctype="multipart/form-data">
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST"
+                action="{{route('album.update',$album->id)}}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
+                <input type="hidden" name="id" value="{{$album->id}}">
                 <!--begin::Input group-->
                 <div class="mb-7">
                     <!--begin::Image input-->
-                    <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
+                    <div class="image-input image-input-outline mb-3" data-kt-image-input="true"
                         style="background-image: url({{asset('assets/media/svg/files/dark/blank-image-dark.svg')}})">
                         <!--begin::Preview existing avatar-->
-                        <div class="image-input-wrapper w-150px h-150px"></div>
+                        <div class="image-input-wrapper w-150px h-150px"
+                            style="background-image: url({{asset($album->getImage())}})"></div>
                         <!--end::Preview existing avatar-->
                         <!--begin::Label-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -76,11 +70,12 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title" value="{{old('title')}}" />
+                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title"
+                        value="{{$album->title}}" />
                     <!--end::Input-->
                     @error('title')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
@@ -91,39 +86,61 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <select value="{{old('title_id')}}" name="title_id" aria-label="Select a title" data-minimum-results-for-search="Infinity"
-                        data-control="select2" data-placeholder="Select title" class="form-select form-select-solid">
+                    <select value="{{$album->title_id}}" name="title_id" aria-label="Select a title"
+                        data-minimum-results-for-search="Infinity" data-control="select2"
+                        data-placeholder="Select title" class="form-select form-select-solid">
                         <option value=""></option>
                         @isset($titles)
-                            @foreach ($titles as $title)
-                                <option value="{{$title->id}}" {{old('title_id') ==$title->id ? 'selected' : ''}}>{{$title->title}}</option>
-                            @endforeach
+                        @foreach ($titles as $title)
+                        <option value="{{$title->id}}" @selected($album->title_id == $title->id)>{{$title->title}}
+                        </option>
+                        @endforeach
                         @endisset
                     </select>
                     <!--end::Input-->
                     @error('title_id')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <!--end::Input group-->
-                <!--begin::Input group-->
-                <div class="fv-row mb-7">
-                    <!--begin::Label-->
-                    <label class="fs-6 fw-bold form-label mt-3">
-                        <span>number of tracks</span>
-                        {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                            title="Enter the contact's city of residence (optional)."></i> --}}
-                    </label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="number_of_tracks" class="form-control form-control-solid"
-                        placeholder="number of tracks" value="{{old('number_of_tracks')}}"/>
-                    <!--end::Input-->
-                    @error('number_of_tracks')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                <!--begin::row-->
+                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                    <div class="col">
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold form-label mt-3">
+                                <span>Number of Tracks</span>
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="number" name="number_of_tracks" class="form-control form-control-solid"
+                                placeholder="title" value="{{$album->number_of_tracks}}" />
+                            <!--end::Input-->
+                            @error('number_of_tracks')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold form-label mt-3">
+                                <span>order on main page</span>
+                            </label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input id="order" type="number" name="order" class="form-control form-control-solid"
+                                placeholder="order" autocomplete="off" value="{{$album->order}}" />
+                            <!--end::Input-->
+                            <span class="input-info"></span>
+                            @error('order')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
-                <!--end::Input group-->
+                <!--end::row-->
                 <!--begin::Row-->
                 <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                     <!--begin::Col-->
@@ -138,18 +155,21 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="composer" aria-label="Select a title" data-minimum-results-for-search="Infinity"
-                            data-control="select2" data-placeholder="Select title" class="form-select form-select-solid" value="{{old('composer')}}">
-                            <option value=""></option>
-                                    <option value="Hiroyuki Sawano" {{old('composer') =='Hiroyuki Sawano'? 'selected' : ''}}>Hiroyuki Sawano</option>
-                                    <option value="Kohta Yamamoto" {{old('composer') =='Kohta Yamamoto'? 'selected' : ''}}>Kohta Yamamoto</option>
-                                    <option value="Hiroyuki Sawano/Kohta Yamamoto" {{old('composer') =='Hiroyuki Sawano/Kohta Yamamoto'? 'selected' : ''}}>Hiroyuki Sawano/Kohta Yamamoto</option>
-                                    <option value="Hiroyuki Sawano/Linked Horizon" {{old('composer') =='Hiroyuki Sawano/Linked Horizon'? 'selected' : ''}}>Hiroyuki Sawano/Linked Horizon</option>
-                        </select>
+                            <select name="composer[]" aria-label="Select a title"
+                                data-minimum-results-for-search="Infinity" data-control="select2"
+                                data-placeholder="Select title" class="form-select form-select-solid"
+                                value="{{$album->composer}}" multiple="multiple">
+                                <option value=""></option>
+                                <option  selected value="">bbbb</option>
+                                @foreach ($composers as $composer)
+                                <option @selected( in_array($composer->id, $album->getComposers()))
+                                    value="{{$composer->id}}">{{$composer->en_name}}</option>
+                                @endforeach
+                            </select>
                             <!--end::Input-->
-                            @error('composer')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                            @error('composer[]')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -165,11 +185,12 @@
                             <!--end::Label-->
                             <div class="w-100">
                                 <input class="form-control form-control-solid" name="date_released"
-                                    placeholder="Pick date rage" id="kt_daterangepicker_3" value="{{old('date_released')}}"/>
+                                    placeholder="Pick date rage" id="kt_daterangepicker_3"
+                                    value="{{$album->date_released}}" />
                             </div>
                             @error('date_released')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -192,11 +213,11 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="album_length" class="form-control form-control-solid"
-                        placeholder="album length" value="{{old('album_length')}}"/>
+                                placeholder="album length" value="{{$album->album_length}}" />
                             <!--end::Input-->
                             @error('album_length')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!--end::Input group-->
                     </div>
@@ -208,16 +229,18 @@
                 <!--end::Row-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
-                    <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input class="form-check-input" name="active" type="checkbox" checked="checked" value="" />
+                   <!--begin::Option-->
+                   <div class="form-check form-check-custom form-check-solid">
+                    <input name="active" class="form-check-input" type="checkbox" @checked($album->isActive())
+                        id="flexCheckDefault" />
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Active
                     </label>
-                    <!--end::Option-->
+                </div>
+                <!--end::Option-->
                     @error('active')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <!--end::Input group-->
                 <!--begin::Separator-->
@@ -247,21 +270,74 @@
 @endsection
 @section('js')
 <script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
+    $("#kt_daterangepicker_3").flatpickr({
+        dateFormat: "m/d/Y",
+    });
+    $("#kt_daterangepicker_4").flatpickr({
+        dateFormat: "m/d/Y",
+    });
+    $("#order").keyup(function() {
+        var value = $(this).val();
+        var textInfo = $('#order').next('.input-info');
+        if (value == '') {
+            textInfo.html('');
+            return;
+        };
+        timeout = setTimeout(function(){
+    $.ajax({
+        type: "POST",
+        url: "/album/checkorder",
+        headers : {
+            'X-CSRF-TOKEN' : "{{ csrf_token()}}"
+        },
+        data: {
+          'order': value,
+          'album': $("[name=id]").val()
+        },
+        dataType: "text",
+        success: function(response) {
+          // hide image
+          response = JSON.parse(response);
+          console.log(response.hasOwnProperty('result'));
+          if(response.result == 1){
+            textInfo.removeClass();
+            textInfo.html('This Order is avilable');
+            textInfo.addClass('text-success');
+            textInfo.addClass('input-info');
+          }
+          else if(response.result == 0){
+            textInfo.removeClass();
+            textInfo.html('This Order is taken by [ '+response.data+' ]');
+            textInfo.addClass('text-info');
+            textInfo.addClass('input-info');
+          }
+          else if (response.result == 2){
+            textInfo.removeClass();
+            textInfo.html('this order already belong to this');
+            textInfo.addClass('text-success');
+            textInfo.addClass('input-info');
+          }
+          else{
+            textInfo.removeClass();
+            textInfo.html('invalid input');
+            textInfo.addClass('text-danger');
+            textInfo.addClass('input-info');
+          }
+        //   $(#span_result .loader).hide();
+
+        //   if (value == $(that).val()) {
+        //     $("#span_result").html(html)
+
+        }
+    }, 400);
+});
+    });
+
+    var array = [];
+    @foreach ($album->getComposersId() as $id )
+    array.push("{{$id}}")
+    @endforeach
+    $('[name="composer[]"]').val(array);
+$('#mySelect2').trigger('change');
 </script>
 @endsection

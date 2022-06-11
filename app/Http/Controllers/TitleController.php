@@ -6,6 +6,11 @@ use App\Models\Title;
 use App\Http\Requests\StoreTitleRequest;
 use App\Http\Requests\UpdateTitleRequest;
 use App\Models\Album;
+use App\Models\Episode;
+use Exception;
+use GrahamCampbell\ResultType\Success;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TitleController extends Controller
 {
@@ -16,7 +21,11 @@ class TitleController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return view('app.titles.index-title');
+        } catch (Exception $ex) {
+            return  $this->pageError($ex);
+        }
     }
 
     /**
@@ -27,13 +36,11 @@ class TitleController extends Controller
     public function create()
     {
         //gets the last available order
-        try{
-        $lastOrder  = Title::max('order') + 1;
-        return view('createtitle', compact('lastOrder'));
-        }catch(\Exception $ex){
-            dd($ex);
+        try {
+            return view('app.titles.createtitle');
+        } catch (Exception $ex) {
+            return   $this->pageError($ex);
         }
-
     }
 
     /**
@@ -46,8 +53,10 @@ class TitleController extends Controller
     {
         try {
             $collection = collect($request);
-            $image = uploadImage($collection['thumbnail']);
-            $collection['thumbnail'] = $image;
+            if ($collection->has('thumbnail')) {
+                $image = uploadImage($collection['thumbnail']);
+                $collection['thumbnail'] = $image;
+            }
             $collection->forget(['_token', 'thumbnail_remove']);
             if ($collection->has('active')) {
                 $collection['active'] = true;
@@ -55,9 +64,9 @@ class TitleController extends Controller
                 $collection['active'] = false;
             }
             Title::create($collection->toArray());
-            return redirect()->back();
-        } catch (\Exception $ex) {
-            dd($ex);
+            return redirect()->route('title.index');
+        } catch (Exception $ex) {
+            return $this->pageError($ex);
         }
     }
 
@@ -69,7 +78,11 @@ class TitleController extends Controller
      */
     public function show(Title $title)
     {
-        return view('viewtitle', compact('title'));
+        try {
+            return view('app.titles.viewtitle', compact('title'));
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
     }
 
     /**
@@ -80,7 +93,12 @@ class TitleController extends Controller
      */
     public function edit(Title $title)
     {
-        return view('edittitle', compact('title'));
+
+        try {
+            return view('app.titles.edittitle', compact('title'));
+        } catch (Exception $ex) {
+            return $this->pageError($ex);
+        }
     }
 
     /**
@@ -107,7 +125,7 @@ class TitleController extends Controller
             $title->update($collection->toArray());
             return redirect()->route('title.view', $title->id);
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
     }
 
@@ -120,10 +138,59 @@ class TitleController extends Controller
     public function destroy(Title $title)
     {
         try {
+            if(Album::where('title_id', $title->id)->exists() || Episode::where('title_id', $title->id)->exists()){
+                throw new Exception('Can not delete which has dependencies');
+            };
             $title->delete();
-            return redirect('/');
+            return redirect()->route('title.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
+    }
+
+    public function getRecords()
+    {
+        try {
+            $titles = Title::all();
+            return $titles->toJson();
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
+    }
+
+    public function checkOrder(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order' => 'required|numeric',
+                'title' => 'exists:titles,id'
+            ]);
+            if ($validator->fails()) {
+                return ['result' => '500'];
+            }
+
+            $title = Title::where('order', $request->order);
+            $response = '';
+            if (!$title->exists()) {
+                $response = ['result' => '1', 'data' => ''];
+            } elseif ($title->first()->id == $request->title) {
+                $response =  ['result' => '2', 'data' => 'the id belongs to this title'];
+            } else {
+
+                $response =  ['result' => '0', 'data' => $title->first()->title];
+            }
+            return $response;
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);dd($ex);
+        }
+    }
+
+
+
+
+
+    private function pageError(Exception $ex)
+    {
+        return redirect()->route('error')->withError($ex->getMessage());
     }
 }

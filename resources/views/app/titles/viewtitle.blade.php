@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+{{$title->title}}
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,36 +10,35 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
-                <!--end::Svg Icon-->
-                <h2>Edit Entry</h2>
+                <h2>{{$title->id.' :'.$title->title}}</h2>
             </div>
             <!--end::Card title-->
+            <div class="tool-bar">
+                <a href="{{route('title.edit',$title->id)}}"><button  data-kt-contacts-type="edit" class="btn btn-light me-3 btn-active-info">Edit</button></a>
+                <a ><button name="delete" data-kt-contacts-type="delete" class="btn btn-light me-3 btn-active-danger">Delete</button></a>
+            </div>
         </div>
         <!--end::Card header-->
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST"
-                action="{{route('title.update',$title->id)}}" enctype="multipart/form-data" autocomplete="off">
-                @csrf
+            {{-- <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('title.create')}}" enctype="multipart/form-data">
+                @csrf --}}
                 <!--begin::Input group-->
-                <input type="hidden" name="id" value="{{$title->id}}">
                 <div class="mb-7">
-                    <!--begin::Image input-->
-                    <div class="image-input image-input-outline mb-3" data-kt-image-input="true"
+                    {{-- <!--begin::Image input-->
+                    <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
                         style="background-image: url({{asset('assets/media/svg/files/dark/blank-image-dark.svg')}})">
                         <!--begin::Preview existing avatar-->
-                        <div class="image-input-wrapper w-150px h-150px"
-                            style="background-image: url({{asset($title->getImage())}})"></div>
+                        <div class="image-input-wrapper w-150px h-150px"></div>
                         <!--end::Preview existing avatar-->
                         <!--begin::Label-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                            data-kt-image-input-action="change" data-bs-toggle="tooltip" title="change Thumbnail">
+                            data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Thumbnail">
                             <i class="bi bi-pencil-fill fs-7"></i>
                             <!--begin::Inputs-->
-                            <input type="file" name="thumbnail" accept=".png, .jpg, .jpeg .webp" />
-                            <input type="hidden" name="thumbnail_remove" />
+                            <input readonly type="file" name="thumbnail" accept=".png, .jpg, .jpeg, .webp" />
+                            <input readonly type="hidden" name="thumbnail_remove" />
                             <!--end::Inputs-->
                         </label>
                         <!--end::Label-->
@@ -56,7 +58,8 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <!--end::Image input-->
+                    <!--end::Image input--> --}}
+                    <img src="{{$title->getImage()}}" width="300" alt="">
 
                 </div>
                 <!--end::Input group-->
@@ -70,8 +73,7 @@
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" value="{{$title->title}}" name="title" class="form-control form-control-solid"
-                        placeholder="title" />
+                    <input readonly value="{{$title->title}}" type="text" name="title" class="form-control form-control-solid bg-black" placeholder="title" />
                     <!--end::Input-->
                     @error('title')
                     <span class="text-danger">{{ $message }}</span>
@@ -90,7 +92,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="number_of_episodes" class="form-control form-control-solid"
+                            <input readonly type="text" name="number_of_episodes" class="form-control form-control-solid bg-black"
                                 placeholder="number of episodes" value="{{$title->number_of_episodes}}" />
                             <!--end::Input-->
                             @error('number_of_episodes')
@@ -108,7 +110,7 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="order" class="form-control form-control-solid"
+                            <input readonly type="text" name="order" class="form-control form-control-solid bg-black"
                                 placeholder="order" value="{{$title->order}}" />
                             <!--end::Input-->
                             @error('order')
@@ -133,16 +135,18 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="type" aria-label="Select a type" data-minimum-results-for-search="Infinity"
+                            <input readonly value="{{$title->type}}" type="text" name="number_of_episodes" class="form-control form-control-solid bg-black"
+                        placeholder="number of episodes" />
+                            {{-- <select name="type" aria-label="Select a type" data-minimum-results-for-search="Infinity"
                                 data-control="select2" data-placeholder="Select type"
                                 class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option @selected($title->type == 'canon') value="canon">canon</option>
-                                <option @selected($title->type == 'recap') value="recap">recap</option>
-                                <option @selected($title->type == 'spinoff') value="spinoff">spinoff</option>
-                                <option @selected($title->type == 'filler') value="filler">filler</option>
-                                <option @selected($title->type == 'extra') value="extra">extra</option>
-                            </select>
+                                <option value="canon">canon</option>
+                                <option value="recap">recap</option>
+                                <option value="spinoff">spinoff</option>
+                                <option value="filler">filler</option>
+                                <option value="extra">extra</option>
+                            </select> --}}
                             <!--end::Input-->
                             @error('type')
                             <span class="text-danger">{{ $message }}</span>
@@ -158,13 +162,11 @@
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="fs-6 fw-bold form-label mt-3">
-                                <span>start date</span>
+                                <span >start date</span>
                             </label>
                             <!--end::Label-->
                             <div class="w-100">
-                                <input class="form-control form-control-solid" name="start_date"
-                                    placeholder="Pick date rage" id="kt_daterangepicker_3"
-                                    value="{{$title->start_date}}" />
+                                <input readonly value="{{$title->start_date}}" class="bg-black form-control form-control-solid" name="start_date" placeholder="Pick date rage"/>
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -189,14 +191,16 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <select name="format" aria-label="Select a format"
+                            <input readonly value="{{$title->format}}" type="text" name="number_of_episodes" class="bg-black form-control form-control-solid"
+                        placeholder="number of episodes" />
+                            {{-- <select name="format" aria-label="Select a format"
                                 data-minimum-results-for-search="Infinity" data-control="select2"
                                 data-placeholder="Select format" class="form-select form-select-solid">
                                 <option value=""></option>
-                                <option @selected($title->format == 'tv') value="tv">TV</option>
-                                <option @selected($title->format == 'movie') value="movie">movie</option>
-                                <option @selected($title->format == 'oda') value="oda">ODA</option>
-                            </select>
+                                <option value="tv">TV</option>
+                                <option value="movie">movie</option>
+                                <option value="oda">ODA</option>
+                            </select> --}}
                             <!--end::Input-->
                             @error('format')
                             <span class="text-danger">{{ $message }}</span>
@@ -217,15 +221,13 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input class="form-control form-control-solid" name="end_date" placeholder="Pick date rage"
-                                id="kt_daterangepicker_4" value="{{$title->end_date}}" />
+                            <input readonly class="bg-black form-control form-control-solid" name="end_date" placeholder="Pick date rage" value="{{$title->end_date}}" />
                             <!--end::Input-->
                             @error('end_date')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <!--end::Input group-->
-
                     </div>
                     <!--end::Col-->
                 </div>
@@ -233,12 +235,8 @@
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input class="form-check-input" name="active" type="checkbox" @checked($title->isActive())
-                        value="" />
-                    </label>
+                    <label class="fs-6 fw-bold form-label mt-3" for="active">active: </label>
+                    <span class="badge @if ($title->isActive()) badge-success @else badge-danger @endif ">@if ($title->isActive()) yes @else no @endif</span>
                     <!--end::Option-->
 
                 </div>
@@ -251,8 +249,8 @@
                 <!--end::Separator-->
                 <!--begin::Action buttons-->
                 <div class="d-flex justify-content-end">
-                    <!--begin::Button-->
-                    <button type="back" onclick="history.back();" data-kt-contacts-type="cancel" class="btn btn-light me-3">Cancel</button>
+                    {{-- <!--begin::Button-->
+                    <button type="reset" data-kt-contacts-type="cancel" class="btn btn-light me-3">Cancel</button>
                     <!--end::Button-->
                     <!--begin::Button-->
                     <button type="submit" data-kt-contacts-type="submit" class="btn btn-primary">
@@ -260,10 +258,13 @@
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
-                    <!--end::Button-->
+                    <!--end::Button--> --}}
+                    <form id="delete" action="{{route('title.delete',$title->id)}}" method="POST">
+                        @csrf
+                    </form>
                 </div>
                 <!--end::Action buttons-->
-            </form>
+            {{-- </form> --}}
             <!--end::Form-->
         </div>
         <!--end::Card body-->
@@ -273,21 +274,14 @@
 @endsection
 @section('js')
 <script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
+$("#kt_daterangepicker_3").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$("#kt_daterangepicker_4").flatpickr({
+    dateFormat: "m/d/Y",
+});
+$('button[name="delete"]').on('click', function(){
+    $('#delete').submit();
+});
 </script>
 @endsection
