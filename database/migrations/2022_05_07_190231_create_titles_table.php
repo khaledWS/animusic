@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('titles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('format')->comment('tv/movie/ova');
-            $table->string('type')->comment('tv//recap/spinoff');
-            $table->string('number_of_episodes')->nullable();
-            $table->string('start_date')->nullable();
-            $table->string('end_date')->nullable();
-            $table->string('order')->nullable();
+            $table->string('format')->nullable()->comment('tv/movie/ova');
+            $table->string('type')->nullable()->comment('tv//recap/spinoff');
+            $table->integer('number_of_episodes')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->integer('order')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

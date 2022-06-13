@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+New Episode
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,18 +10,6 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <!--begin::Svg Icon | path: icons/duotune/communication/com005.svg-->
-                <span class="svg-icon svg-icon-1 me-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
-                            fill="currentColor" />
-                        <path opacity="0.3"
-                            d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
-                            fill="currentColor" />
-                    </svg>
-                </span>
-                <!--end::Svg Icon-->
                 <h2>Add new Episode</h2>
             </div>
             <!--end::Card title-->
@@ -27,19 +18,21 @@
         <!--begin::Card body-->
         <div class="card-body pt-5">
             <!--begin::Form-->
-            <form id="kt_ecommerce_settings_general_form" class="form" method="POST" action="{{route('episode.create')}}">
+            <form id="kt_ecommerce_settings_general_form" class="form" method="POST"
+                action="{{route('episode.create')}}">
                 @csrf
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Label-->
                     <label class="fs-6 fw-bold form-label mt-3">
-                        <span class="required">Title</span>
+                        <span class="required">English Title</span>
                         {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                             title="Enter the contact's name."></i> --}}
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title" />
+                    <input type="text" name="title" class="form-control form-control-solid" placeholder="title"
+                        value="{{old('title')}}" />
                     <!--end::Input-->
                     @error('title')
                     <span class="text-danger">{{ $message }}</span>
@@ -47,12 +40,42 @@
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
+                <div class="fv-row mb-7 row">
+                    <div class="col">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>romaji Title</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" name="romaji_title" class="form-control form-control-solid"
+                            placeholder="title" value="{{old('romaji_title')}}" />
+                        <!--end::Input-->
+                        @error('romaji_title')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>JP title</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" name="jp_title" class="form-control form-control-solid"
+                            placeholder="jp title" value="{{old('romaji_title')}}" />
+                        <!--end::Input-->
+                        @error('jp_title')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Label-->
                     <label class="fs-6 fw-bold form-label mt-3">
                         <span>part of </span>
-                        {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                            title="Enter the contact's city of residence (optional)."></i> --}}
                     </label>
                     <!--end::Label-->
                     <!--begin::Input-->
@@ -60,7 +83,8 @@
                         data-control="select2" data-placeholder="Select title" class="form-select form-select-solid">
                         <option value=""></option>
                         @foreach ($titles as $title)
-                        <option value="{{$title->id}}">{{$title->title}}</option>
+                        <option @selected($title->id == old('title_id')) value="{{$title->id}}">{{$title->title}}
+                        </option>
                         @endforeach
                     </select>
                     <!--end::Input-->
@@ -70,27 +94,23 @@
                 </div>
                 <!--end::Input group-->
                 <!--begin::Input group-->
-                <div class="fv-row mb-7">
-                    <!--begin::Label-->
-                    <label class="fs-6 fw-bold form-label mt-3">
-                        <span>episode number in this season</span>
-                        {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                            title="Enter the contact's city of residence (optional)."></i> --}}
-                    </label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="season_number" class="form-control form-control-solid"
-                        placeholder="season number" />
-                    <!--end::Input-->
-                    @error('season_number')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <!--end::Input group-->
-                <!--begin::Row-->
-                <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+                <div class="fv-row row mb-7">
+                    <div class="col-md-4">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>episode number in this season</span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="number" name="season_number" class="form-control form-control-solid"
+                            placeholder="season number" value="{{old('season_number')}}" />
+                        <!--end::Input-->
+                        @error('season_number')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <!--begin::Col-->
-                    <div class="col">
+                    <div class="col-md-4">
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
@@ -101,8 +121,8 @@
                             </label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="series_number" class="form-control form-control-solid"
-                                placeholder="series number" />
+                            <input type="number" name="series_number" class="form-control form-control-solid"
+                                placeholder="series number" value="{{old('series_number')}}" />
                             <!--end::Input-->
                             @error('series_number')
                             <span class="text-danger">{{ $message }}</span>
@@ -112,7 +132,7 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col">
+                    <div class="col-md-4">
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
@@ -120,8 +140,8 @@
                                 <span class="required">episode length</span>
                             </label>
                             <!--end::Label-->
-                            <input type="text" name="episode_length" class="form-control form-control-solid"
-                            placeholder="episodelength" />
+                            <input type="numner" name="episode_length" class="form-control form-control-solid"
+                                placeholder="episodelength" value="{{old('episode_length')}}" />
                             @error('episode_length')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -129,16 +149,19 @@
                         <!--end::Input group-->
                     </div>
                     <!--end::Col-->
+
                 </div>
-                <!--end::Row-->
+                <!--end::Input group-->
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input class="form-check-input" name="active" type="checkbox" checked="checked" value="" />
-                    </label>
+                    <div class="form-check form-check-custom form-check-solid">
+                        <input name="active" class="form-check-input" type="checkbox" @checked(old('active'))
+                            id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Active
+                        </label>
+                    </div>
                     <!--end::Option-->
                     @error('active')
                     <span class="text-danger">{{ $message }}</span>

@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+view episode
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -37,6 +40,38 @@
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
+            <!--begin::row-->
+            <div class="fv-row mb-7 row">
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>romaji Title</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="romaji_title" class="form-control form-control-solid" placeholder="title"
+                        value="{{$episode->romaji_title}}" />
+                    <!--end::Input-->
+                    @error('romaji_title')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col">
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-bold form-label mt-3">
+                        <span>JP title</span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="jp_title" class="form-control form-control-solid" placeholder="jp title"
+                        value="{{$episode->jp_title}}" />
+                    <!--end::Input-->
+                    @error('jp_title')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+            <!--end::row-->
             <!--begin::Input group-->
             <div class="fv-row mb-7">
                 <!--begin::Label-->
@@ -92,7 +127,7 @@
                         </label>
                         <!--end::Label-->
                         <input readonly type="text" name="episode_length" class="form-control form-control-solid"
-                            value="{{$episode->episode_length}}" />
+                            value="{{$episode->displayFormat()}}" />
                     </div>
                     <!--end::Input group-->
                 </div>
@@ -105,7 +140,8 @@
                 <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                     <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
                     </span>
-                    <input readonly class="form-check-input" name="active" type="checkbox" @checked($episode->isActive())
+                    <input readonly class="form-check-input" name="active" type="checkbox"
+                        @checked($episode->isActive())
                     value="{{$episode->active}}" />
                 </label>
                 <!--end::Option-->

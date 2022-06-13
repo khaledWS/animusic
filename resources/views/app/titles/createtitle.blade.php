@@ -289,10 +289,12 @@ New Title
 //     }
 // );
 $("#kt_daterangepicker_3").flatpickr({
-    dateFormat: "m/d/Y",
+    altField: "m/d/Y",
+            altFormat: "yyyy-mm-dd"
 });
 $("#kt_daterangepicker_4").flatpickr({
-    dateFormat: "m/d/Y",
+    altField: "m/d/Y",
+            altFormat: "yyyy-mm-dd"
 });
 $("#order").keyup(function() {
     var value = $(this).val();

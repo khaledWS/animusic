@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('season_number')->nullable()->comment('1x1');
-            $table->string('series_number')->nullable()->comment('ep 85');
             $table->foreignId('title_id')->nullable()->comment('season 1 id');
-            $table->string('episode_length')->nullable();
-            $table->boolean('active')->default(true);
+            $table->integer('season_number')->nullable()->comment('1x1');
+            $table->integer('series_number')->nullable()->comment('ep 85');
+            $table->integer('episode_length')->nullable();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

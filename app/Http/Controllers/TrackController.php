@@ -153,7 +153,6 @@ class TrackController extends Controller
             $tracks = Track::all();
             return $tracks->load(['album','composer' ])->toJson();
         } catch (\Exception $ex) {
-            ddd($ex);
             return $this->pageError($ex);
         }
     }

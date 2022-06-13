@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('title_id')->nullable()->comment('season ID');
             $table->string('composer')->nullable();
-            $table->string('date_released')->nullable();
-            $table->string('number_of_tracks')->nullable();
-            $table->string('album_length')->nullable();
+            $table->date('date_released')->nullable();
+            $table->integer('number_of_tracks')->nullable();
+            $table->integer('album_length')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->string('order')->nullable();
-            $table->boolean('active')->default(true);;
+            $table->integer('order')->nullable();
+            $table->boolean('active')->default(false);;
             $table->timestamps();
         });
     }

@@ -26,10 +26,12 @@ class UpdateEpisodeRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
+            'jp_title' => 'string',
+            'romaji_title' => 'string',
             'title_id' => 'nullable|exists:titles,id',
             'season_number' => ['numeric', Rule::unique('episodes', 'season_number')->ignore($this->id)],
             'series_number' => ['numeric', Rule::unique('episodes', 'series_number')->ignore($this->id)],
-            'length' => 'numeric'
+            'episode_length' => 'nullable'
         ];
     }
 }

@@ -21,7 +21,7 @@
             <div class="col-xl-12">
                 <!--begin::Engage widget 6-->
                 <div id="title-card" class="card flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                    style="background-color:#020202;background-image:url('{{$track->album->getImage()}}'),linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);">
+                    style="background-color:#020202;background-image:url(' @isset($track->album) {{$track->album->getImage()}} @endisset'),linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between flex-column ps-xl-18">
                         <!--begin::Heading-->
@@ -85,12 +85,12 @@
                             <!--begin::Details item-->
                             <div class="fw-bolder mt-5">Album</div>
                             <div class="text-gray-600">
-                                <a href="/album/{{$track->album->id}}">{{$track->album->title}}</a>
+                                <a href="/album/@isset($track->album){{$track->album->id}} @endisset">@isset($track->album){{$track->album->title}}@endisset</a>
                             </div>
                             <!--end::Details item-->
                             <!--begin::Details item-->
                             <div class="fw-bolder mt-5">Release date</div>
-                            <div class="text-gray-600">{{$track->album->date_released}}</div>
+                            <div class="text-gray-600">@isset($track->album){{$track->album->date_released}}@endisset</div>
                             <!--end::Details item-->
                             <div class="separator mb-5"></div>
                             @if ($track->spotify)
@@ -101,8 +101,8 @@
 
                             </div>
                             @endif
-                            @if ($track->yt_offical)
-                            <div class="mt-5"><a target="_blank" href="{{$track->yt_offical}}">
+                            @if ($track->yt_official)
+                            <div class="mt-5"><a target="_blank" href="{{$track->yt_official}}">
                                     <img width="20"
                                         src="{{asset('assets/media/mine/Youtube_icon-icons.com_66802.svg')}}" alt="">
                                     <span class="">YT - Official</span></a>

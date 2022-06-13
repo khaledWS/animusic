@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+edit episode track
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -20,39 +23,97 @@
                 @csrf
                 <input type="hidden" name="id" value="{{$episodeTrack->id}}">
                 <!--begin::Input group-->
-                <div class="row mb-7">
-                    <div class="col-md-1">
-                        <!--begin::Option-->
-                        <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                            <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                            </span>
-                            <input class="form-check-input" name="active" type="checkbox"
-                                @checked($episodeTrack->active) value="{{$episodeTrack->active}}" />
-                        </label>
-                        <!--end::Option-->
-                    </div>
-                    <div class="col-md-1">
-                        <!--begin::Option-->
-                        <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                            <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">unknown
-                            </span>
-                            <input class="form-check-input" name="unknown" isChecked="false" type="checkbox"
-                                @checked($episodeTrack->unknown) value="{{$episodeTrack->active}}" />
-                        </label>
-                        <!--end::Option-->
-                    </div>
-                    <div class="col-md-1">
-                        <!--begin::Option-->
-                        <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                            <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">new
-                            </span>
-                            <input class="form-check-input" name="new" isChecked="false" type="checkbox"
-                                @checked($episodeTrack->new) value="{{$episodeTrack->active}}" />
-                        </label>
-                        <!--end::Option-->
-                    </div>
+                <div class="row">
+                    <div class="col">
+                        <h5 class="mb-5">track type</h5>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->type == 0) name="type"
+                                type="radio" value=""
+                                id="soundtrack" />
+                                <label class="form-check-label" for="soundtrack">
+                                    soundtrack
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->type == 1) name="type"
+                                type="radio" value="1"
+                                id="Openning" />
+                                <label class="form-check-label" for="Openning">
+                                    Openning
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->type == 2) name="type"
+                                type="radio" value="2"
+                                id="Ending" />
+                                <label class="form-check-label" for="Ending">
+                                    Ending
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->type == 3) name="type"
+                                type="radio" value="3"
+                                id="Preview" />
+                                <label class="form-check-label" for="Preview">
+                                    Preview
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->type == 4) name="type"
+                                type="radio" value="4"
+                                id="midcard" />
+                                <label class="form-check-label" for="midcard">
+                                    Mid card
+                                </label>
+                            </div>
+                        </div>
 
+
+                    </div>
+                    <div class="col">
+                        <h5 class="mb-5">track status</h5>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->status == 0) name="status"
+                                type="radio"
+                                value="0" id="known" />
+                                <label class="form-check-label" for="known">
+                                    Known track
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->status == 1) name="status"
+                                type="radio"
+                                value="1" id="unknown" />
+                                <label class="form-check-label" for="unknown">
+                                    Unknown Track
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked($episodeTrack->status == 2) name="status"
+                                type="radio"
+                                value="2" id="new" />
+                                <label class="form-check-label" for="new">
+                                    New Track
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <!--end::Input group-->
                 <!--begin::Row-->
                 <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
@@ -128,7 +189,7 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="start" class=" form-control form-control-solid" placeholder="title"
-                                value="{{$episodeTrack->start}}" />
+                                value="{{$episodeTrack->displayFormatStart()}}" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -147,7 +208,7 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="end" class=" form-control form-control-solid" placeholder="title"
-                                value="{{$episodeTrack->end}}" />
+                                value="{{$episodeTrack->displayFormatEnd()}}" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->

@@ -1,4 +1,7 @@
 @extends('layout.index')
+@section('title')
+view episode track
+@endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
     <!--begin::Contacts-->
@@ -7,7 +10,7 @@
         <div class="card-header pt-7" id="kt_chat_contacts_header">
             <!--begin::Card title-->
             <div class="card-title">
-                <h2>{{'('.$episodeTrack->id.'): '.$episodeTrack->title}}</h2>
+                <h2>{{'('.$episodeTrack->id.'): '.$episodeTrack->episode_track_title}}</h2>
             </div>
             <!--end::Card title-->
             <!--begin::Card toolbar-->
@@ -26,37 +29,40 @@
 
             <!--begin::Input group-->
             <div class="row mb-7">
-                <div class="col-md-1">
-                    <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">active
-                        </span>
-                        <input class="form-check-input" name="active" type="checkbox" @checked($episodeTrack->active)
-                        value="{{$episodeTrack->active}}" />
-                    </label>
-                    <!--end::Option-->
+                <div class="col">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>type</span>
+                            {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                title="Enter the contact's email."></i> --}}
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" name="title"
+                            value="{{$episodeTrack->typeString()}}">
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
                 </div>
-                <div class="col-md-1">
-                    <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">unknown
-                        </span>
-                        <input class="form-check-input" name="unknown" isChecked="false" type="checkbox"
-                            @checked($episodeTrack->unknown) value="{{$episodeTrack->active}}" />
-                    </label>
-                    <!--end::Option-->
+                <div class="col">
+                     <!--begin::Input group-->
+                     <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-bold form-label mt-3">
+                            <span>status</span>
+                            {{-- <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                title="Enter the contact's email."></i> --}}
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" name="status"
+                            value="{{$episodeTrack->statusString()}}">
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
                 </div>
-                <div class="col-md-1">
-                    <!--begin::Option-->
-                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                        <span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700 pl-5">new
-                        </span>
-                        <input class="form-check-input" name="new" isChecked="false" type="checkbox"
-                            @checked($episodeTrack->new) value="{{$episodeTrack->active}}" />
-                    </label>
-                    <!--end::Option-->
-                </div>
-
             </div>
             <!--end::Input group-->
             <!--begin::Row-->
@@ -74,7 +80,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" class="form-control form-control-solid" name="title"
-                            value="{{$episodeTrack->title}}">
+                            value="{{$episodeTrack->episode_track_title}}">
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -116,7 +122,10 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" class="form-control form-control-solid" name="track_id"
-                            value="{{$episodeTrack->track->title}}">
+                        @isset($episodeTrack->track->title)
+                        value="{{$episodeTrack->track->title}}"
+                        @endisset
+                        >
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -139,7 +148,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" name="start" class=" form-control form-control-solid" placeholder="title"
-                            value="{{$episodeTrack->start}}" />
+                            value="{{$episodeTrack->displayFormatStart()}}" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -158,7 +167,7 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" name="end" class=" form-control form-control-solid" placeholder="title"
-                            value="{{$episodeTrack->end}}" />
+                            value="{{$episodeTrack->displayFormatEnd()}}" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->

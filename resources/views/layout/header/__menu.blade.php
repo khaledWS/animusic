@@ -33,12 +33,12 @@
                 </div>
             </div>
         </div> --}}
-        <div class="menu-item">
+        {{-- <div class="menu-item">
             <a class="menu-link py-3" href="/">
                 </span>
                 <span class="menu-title">main page</span>
             </a>
-        </div>
+        </div> --}}
 
     </div>
     <!--end::Menu-->

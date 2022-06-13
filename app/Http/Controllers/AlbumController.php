@@ -126,6 +126,7 @@ class AlbumController extends Controller
     {
         try {
             $collection = collect($request);
+            // dd($collection['date_released'] = date('Y-M-d',strtotime($collection['date_released'] )));
             if ($collection->has('thumbnail')) {
                 $image = uploadImage($collection['thumbnail']);
                 $collection['thumbnail'] = $image;
@@ -136,6 +137,7 @@ class AlbumController extends Controller
             } else {
                 $collection['active'] = false;
             }
+            // $collection['date_released'] = date('Y-m-d',strtotime($collection['date_released'] ));
             DB::beginTransaction();
             $album->update($collection->except(['composer'])->toArray());
 

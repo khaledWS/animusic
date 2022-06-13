@@ -26,6 +26,9 @@ class Track extends Model
 
     public function displayFormat()
     {
+        if($this->length == null){
+            return gmdate("i:s", 0);
+        }
         return gmdate("i:s", $this->length);
     }
 

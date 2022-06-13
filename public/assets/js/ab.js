@@ -1,5 +1,7 @@
 var DatatableRemoteAjaxDemo = {
     init: function () {
+        var title = $("input[name=title_id]").val();
+        console.log()
         var t;
         t = $("#kt_datatable_example_3").DataTable({
             "scrollY": "500px",
@@ -8,7 +10,7 @@ var DatatableRemoteAjaxDemo = {
              'ordering': 0,
              "responsive": 1,
             ajax: {
-                url: "/episode/episode-track",
+                url: "/episode/episode-track/"+title+"/" ,
                 dataSrc:''
             },
             orderCellsTop: true,
@@ -19,11 +21,24 @@ var DatatableRemoteAjaxDemo = {
                 width: "15%",
                 textAlign: "center"
             }, {
-                data: "title",
+                data: "episode_track_title",
                 title: "name",
                 width: "500px",
-                render: function (data) {
-                    return '<a href="#">'+data+'</a>';
+                render: function (data, type, row) {
+                    color = '';
+                    if(row.track == null){
+                        if(row.type == 0){
+                            color = 'color: gray';
+                        }
+                        else{
+                            color = 'color: yellow';
+                        }
+                        return '<a style="'+color+'">'+data+'</a>';
+                    }
+                    if(!row.type == 0){
+                        color = 'color: yellow';
+                    }
+                    return '<a style="'+color+'" href="/track/'+row.track.id+'">'+data+'</a>';
                 }
             }, {
                 data: "start",

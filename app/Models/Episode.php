@@ -31,4 +31,9 @@ class Episode extends Model
         $title = $this->title_id == null ? '' : $this->parentTitle->title;
         return $title;
     }
+
+    public function displayFormat()
+    {
+        return gmdate("i:s", $this->episode_length);
+    }
 }

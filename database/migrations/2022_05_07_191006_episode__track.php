@@ -18,12 +18,16 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->foreignId('episode_id');
             $table->foreignId('track_id')->nullable();
-            $table->string('start');
-            $table->string('end');
+            $table->integer('start');
+            $table->integer('end');
             $table->string('notes')->nullable();
-            $table->boolean('active')->default(true);
-            $table->boolean('new')->default(false)->comment('if the track is new or not');;
+            $table->boolean('new')->default(false)->comment('if the track is new or not');
             $table->boolean('unknown')->default(false)->comment('if the track is known or not');
+            $table->boolean('midcard')->default(false);
+            $table->boolean('opening')->default(false);
+            $table->boolean('ending')->default(false);
+            $table->boolean('preview')->default(false);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

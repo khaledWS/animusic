@@ -15,6 +15,7 @@
 @endsection
 @section('content')
 <div class="content flex-row-fluid" id="kt_content">
+    <input type="text" hidden name="title_id" value="{{$title->id}}" id="">
     <div class="d-flex flex-column">
         <!--begin::Row-->
         <div class="row g-5 g-xl-10 mb-5 mb-xl-10">

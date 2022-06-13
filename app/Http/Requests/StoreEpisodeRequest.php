@@ -24,15 +24,16 @@ class StoreEpisodeRequest extends FormRequest
      */
     public function rules()
     {
-        // dd($this->title_id);
         return [
             'title' => 'required|string',
+            'jp_title' => 'string',
+            'romaji_title' => 'string',
             'title_id' => 'nullable|exists:titles,id',
             'season_number' => ['numeric', Rule::unique('episodes','season_number')->where(function ($query){
                 return $query->where('title_id', $this->title_id);
             })],
             'series_number' => ['numeric', Rule::unique('episodes','series_number')],
-            'length' => 'numeric'
+            'episode_length' => 'nullable'
         ];
     }
 }

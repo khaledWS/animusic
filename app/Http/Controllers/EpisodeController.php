@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Episode;
 use App\Http\Requests\StoreEpisodeRequest;
 use App\Http\Requests\UpdateEpisodeRequest;
+use App\Models\EpisodeTrack;
 use App\Models\Title;
+use Exception;
 
 class EpisodeController extends Controller
 {
@@ -16,7 +18,11 @@ class EpisodeController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return view('app.episodes.index-episode');
+        } catch (Exception $ex) {
+            return  $this->pageError($ex);
+        }
     }
 
     /**
@@ -26,8 +32,12 @@ class EpisodeController extends Controller
      */
     public function create()
     {
-        $titles = Title::all();
-        return view('createepisode',compact('titles'));
+        try {
+            $titles = Title::all();
+            return view('app.episodes.createepisode', compact('titles'));
+        } catch (\Exception $ex) {
+            return  $this->pageError($ex);
+        }
     }
 
     /**
@@ -46,10 +56,14 @@ class EpisodeController extends Controller
             } else {
                 $collection['active'] = false;
             }
+            if (!empty($collection['episode_length'])) {
+                $time = explode(':', $collection['episode_length']);
+                $collection['episode_length'] = (int)$time[0] * 60 + (int)$time[1];
+            }
             Episode::create($collection->toArray());
-            return redirect()->back();
+            return redirect()->route('episode.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
     }
 
@@ -61,7 +75,11 @@ class EpisodeController extends Controller
      */
     public function show(Episode $episode)
     {
-        return view('viewepisode', compact('episode'));
+        try {
+            return view('app.episodes.viewepisode', compact('episode'));
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
     }
 
     /**
@@ -74,9 +92,9 @@ class EpisodeController extends Controller
     {
         try {
             $titles = Title::all();
-            return view('editepisode', compact('titles', 'episode'));
+            return view('app.episodes.editepisode', compact('titles', 'episode'));
         } catch (\Exception $ex) {
-            redirect()->route('episode.index');
+            return $this->pageError($ex);
         }
     }
 
@@ -97,10 +115,14 @@ class EpisodeController extends Controller
             } else {
                 $collection['active'] = false;
             }
+            if (!empty($collection['episode_length'])) {
+                $time = explode(':', $collection['episode_length']);
+                $collection['episode_length'] = (int)$time[0] * 60 + (int)$time[1];
+            }
             $episode->update($collection->toArray());
-            return redirect()->route('episode.view');
+            return redirect()->route('episode.view', $episode->id);
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
     }
 
@@ -113,10 +135,29 @@ class EpisodeController extends Controller
     public function destroy(Episode $episode)
     {
         try {
+            if (EpisodeTrack::where('EPISODE_ID', $episode->id)->exists()) {
+                throw new Exception('Can not delete which has dependencies');
+            };
             $episode->delete();
-            return redirect('/');
+            return redirect()->route('episode.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
+    }
+
+    public function getRecords()
+    {
+        try {
+            $episodes = Episode::all();
+            return $episodes->load(['parentTitle'])->toJson();
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
+    }
+
+
+    private function pageError(Exception $ex)
+    {
+        return redirect()->route('error')->withError($ex->getMessage());
     }
 }

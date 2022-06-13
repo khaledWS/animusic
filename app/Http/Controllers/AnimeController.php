@@ -49,11 +49,6 @@ class AnimeController extends Controller
     public function track(Track $track)
     {
         try {
-            // dd();
-            // $episodeTitles = collect();
-            // $title->episodes->each(function($item, $key) use ($episodeTitles) {
-            //     $episodeTitles->push($item->title);
-            // });
             return view('app.anime.showtrack', compact('track'));
         } catch (\Exception $ex) {
             return $this->pageError($ex);

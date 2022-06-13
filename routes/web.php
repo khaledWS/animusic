@@ -80,13 +80,14 @@ Route::middleware(['auth'])->group(function () {
     /**
      * Episodes Routes
      */
+    route::get('/episode/index', [EpisodeController::class, 'index'])->name('episode.index');
     route::get('/episode/new', [EpisodeController::class, 'create'])->name('episode.new');
     route::post('/episode/create', [EpisodeController::class, 'store'])->name('episode.create');
     route::get('episode/view/{episode}', [EpisodeController::class, 'show'])->name('episode.view');
     route::get('episode/edit/{episode}', [EpisodeController::class, 'edit'])->name('episode.edit');
     route::post('episode/update/{episode}', [EpisodeController::class, 'update'])->name('episode.update');
     route::post('episode/delete/{episode}', [EpisodeController::class, 'destroy'])->name('episode.delete');
-
+    route::get('episode/getrecords', [EpisodeController::class, 'getRecords'])->name('episode.getrecords');
 
 
     /**
@@ -94,10 +95,14 @@ Route::middleware(['auth'])->group(function () {
      */
     route::get('/episode/add-track', [EpisodeTrackController::class, 'create'])->name('episode.add-track');
     route::post('/episode/create-track', [EpisodeTrackController::class, 'store'])->name('episode.create-track');
+
+
+    route::get('episodetrack/index', [EpisodeTrackController::class, 'index'])->name('episodeTrack.index');
     route::get('episodetrack/view/{episodeTrack}', [EpisodeTrackController::class, 'show'])->name('episodeTrack.view');
     route::get('episodetrack/edit/{episodeTrack}', [EpisodeTrackController::class, 'edit'])->name('episodeTrack.edit');
     route::post('episodetrack/update/{episodeTrack}', [EpisodeTrackController::class, 'update'])->name('episodeTrack.update');
     route::post('episodetrack/delete/{EpisodeTrack}', [EpisodeTrackController::class, 'destroy'])->name('episodeTrack.delete');
+    route::get('episodetrack/getrecords', [EpisodeTrackController::class, 'getRecords'])->name('episodeTrack.getrecords');
 });
 
 
@@ -105,7 +110,7 @@ Route::get('/', [AnimeController::class, 'index'])->name('title.index');
 route::get('title/{title}', [AnimeController::class, 'title'])->name('title.show');
 route::get('/album/{album}', [AnimeController::class, 'album'])->name('album.show');
 Route::get('/track/{track}', [AnimeController::class, 'track'])->name('track.show');
-route::get('/episode/episode-track', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
+route::get('/episode/episode-track/{titleID}', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
 
 Route::get('/error', function () {
     return view('error-page');

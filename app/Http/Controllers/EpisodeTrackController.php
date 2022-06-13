@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEpisodeTrackRequest;
 use App\Http\Requests\UpdateEpisodeTrackRequest;
 use App\Models\Episode;
 use App\Models\Track;
+use Exception;
 
 class EpisodeTrackController extends Controller
 {
@@ -17,7 +18,11 @@ class EpisodeTrackController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return view('app.episodes-tracks.index-episodetrack');
+        } catch (Exception $ex) {
+            return  $this->pageError($ex);
+        }
     }
 
     /**
@@ -27,9 +32,13 @@ class EpisodeTrackController extends Controller
      */
     public function create()
     {
-        $tracks = Track::all();
-        $episodes = Episode::all();
-        return view('app.episodes-tracks.createepisodetrack',compact('tracks','episodes'));
+        try {
+            $tracks = Track::all();
+            $episodes = Episode::all();
+            return view('app.episodes-tracks.createepisodetrack', compact('tracks', 'episodes'));
+        } catch (\Exception $ex) {
+            return  $this->pageError($ex);
+        }
     }
 
     /**
@@ -40,10 +49,7 @@ class EpisodeTrackController extends Controller
      */
     public function store(StoreEpisodeTrackRequest $request)
     {
-        // return $request;
         try {
-            $unknown = false;
-            $new = false;
             $collection = collect($request);
             $collection->forget(['_token']);
             if ($collection->has('active')) {
@@ -51,34 +57,48 @@ class EpisodeTrackController extends Controller
             } else {
                 $collection['active'] = false;
             }
-            if($collection->has('unknown')){
-                $unknown = true;
-                $new = false;
-                // $collection-> has('episode_id') ? $collection->forget('episode_id') : '';
-                $collection-> has('track_id') ? $collection->forget('track_id') : '';
-                $collection['title'] = 'UNKNOWN';
+            if ($collection->has('status')) {
+                switch ($collection['status']) {
+                    case 0:
+                        $collection['episode_track_title'] = Track::find($collection['track_id'])->title;
+                        break;
+                    case 1:
+                        $collection->forget('track_id');
+                        $collection['episode_track_title'] = 'UNKNOWN';
+                        break;
+                    case 2:
+                        $collection->forget('track_id');
+                        $collection['episode_track_title'] = 'NEW';
+                        break;
+                }
             }
-            if($collection->has('new')){
-                $new = true;
-                // $collection-> has('episode_id') ? $collection->forget('episode_id') : '';
-                $collection-> has('track_id') ? $collection->forget('track_id') : '';
-                $collection['title'] = 'NEW';
+            if ($collection->has('type')) {
+                switch ($collection['type']) {
+                    case 0:
+                        break;
+                    case 1:
+                        $collection['episode_track_title'] = "Opening";
+                        break;
+                    case 2:
+                        $collection['episode_track_title'] = 'Ending';
+                        break;
+                    case 3:
+                        $collection['episode_track_title'] = 'Preview';
+                        break;
+                    case 4:
+                        $collection['episode_track_title'] = 'Mid Card';
+                        break;
+                }
             }
-            if(!$collection->has('new') && !$collection->has('unknown')){
-                $unknown  = false;
-                $new = false;
-                $collection['title'] = Track::find($collection['track_id'])->title;
-            }
-            $collection['new'] = $new;
-            $collection['unknown'] = $unknown;
-            $time = explode(':',$collection['start']);
-            $collection['start'] = (int)$time[0]*60 + (int)$time[1];
-            $time = explode(':',$collection['end']);
-            $collection['end'] = (int)$time[0]*60 + (int)$time[1];
+
+            $time = explode(':', $collection['start']);
+            $collection['start'] = (int)$time[0] * 60 + (int)$time[1];
+            $time = explode(':', $collection['end']);
+            $collection['end'] = (int)$time[0] * 60 + (int)$time[1];
             EpisodeTrack::create($collection->toArray());
-            return redirect()->back();
+            return redirect()->route('episodeTrack.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return  $this->pageError($ex);
         }
     }
 
@@ -90,7 +110,11 @@ class EpisodeTrackController extends Controller
      */
     public function show(EpisodeTrack $episodeTrack)
     {
-        return view('app.episodes-tracks.viewepisodetrack', compact('episodeTrack'));
+        try {
+            return view('app.episodes-tracks.viewepisodetrack', compact('episodeTrack'));
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
     }
 
     /**
@@ -104,9 +128,9 @@ class EpisodeTrackController extends Controller
         try {
             $tracks = Track::all();
             $episodes = Episode::all();
-            return view('app.episodes-tracks.editepisodetrack', compact('tracks', 'episodes','episodeTrack'));
+            return view('app.episodes-tracks.editepisodetrack', compact('tracks', 'episodes', 'episodeTrack'));
         } catch (\Exception $ex) {
-            redirect()->route('episodetrack.index');
+            return $this->pageError($ex);
         }
     }
 
@@ -127,31 +151,48 @@ class EpisodeTrackController extends Controller
             } else {
                 $collection['active'] = false;
             }
-            if($collection->has('unknown')){
-                $collection['unknown'] = true;
-                $collection['new'] = false;
-                // $collection-> has('episode_id') ? $collection->forget('episode_id') : '';
-                $collection-> has('track_id') ? $collection->forget('track_id') : '';
-                $collection['title'] = 'UNKNOWN';
+
+            if ($collection->has('status')) {
+                switch ($collection['status']) {
+                    case 0:
+                        $collection['episode_track_title'] = Track::find($collection['track_id'])->title;
+                        break;
+                    case 1:
+                        $collection->forget('track_id');
+                        $collection['episode_track_title'] = 'UNKNOWN';
+                        break;
+                    case 2:
+                        $collection->forget('track_id');
+                        $collection['episode_track_title'] = 'NEW';
+                        break;
+                }
             }
-            if($collection->has('new')){
-                $collection['new'] = true;
-                // $collection-> has('episode_id') ? $collection->forget('episode_id') : '';
-                $collection-> has('track_id') ? $collection->forget('track_id') : '';
-                $collection['title'] = 'NEW';
-            }else{
-                $collection['unknown'] = false;
-                $collection['new'] = false;
-                $collection['title'] = Track::find($collection['track_id'])->title;
+            if ($collection->has('type')) {
+                switch ($collection['type']) {
+                    case 0:
+                        break;
+                    case 1:
+                        $collection['episode_track_title'] = "Opening";
+                        break;
+                    case 2:
+                        $collection['episode_track_title'] = 'Ending';
+                        break;
+                    case 3:
+                        $collection['episode_track_title'] = 'Preview';
+                        break;
+                    case 4:
+                        $collection['episode_track_title'] = 'Mid Card';
+                        break;
+                }
             }
-            $time = explode(':',$collection['start']);
-            $collection['start'] = (int)$time[0]*60 + (int)$time[1];
-            $time = explode(':',$collection['end']);
-            $collection['end'] = (int)$time[0]*60 + (int)$time[1];
+            $time = explode(':', $collection['start']);
+            $collection['start'] = (int)$time[0] * 60 + (int)$time[1];
+            $time = explode(':', $collection['end']);
+            $collection['end'] = (int)$time[0] * 60 + (int)$time[1];
             $episodeTrack->update($collection->toArray());
-            return redirect()->back();
+            return redirect()->route('episodeTrack.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
     }
 
@@ -165,15 +206,38 @@ class EpisodeTrackController extends Controller
     {
         try {
             $episodeTrack->delete();
-            return redirect('/');
+            return redirect()->route('episodetrack.index');
         } catch (\Exception $ex) {
-            dd($ex);
+            return $this->pageError($ex);
         }
     }
 
-    public function getAll()
+    public function getAll($titleID)
     {
-        $episodesTracks = EpisodeTrack::OrderBy('start')->get();
-        return  response($episodesTracks->toJson(),200,["Content-Type" => "application/json"]);
+        try {
+            $episodesTracks = EpisodeTrack::join('episodes','episode_id','=','episodes.id')->where('title_id',$titleID)->orderBy('start')->get();
+            // $episodesTracks = EpisodeTrack::where('title_id', $titleID)->OrderBy('start')->get();
+            // $episodesTracks = EpisodeTrack::OrderBy('start')->episode()->get();
+            // dd($episodesTracks);
+            return  response($episodesTracks->load(['track'])->toJson(), 200, ["Content-Type" => "application/json"]);
+        } catch (\Exception $ex) {
+            dd($ex);
+            return $this->pageError($ex);
+        }
+    }
+
+    public function getRecords()
+    {
+        try {
+            $episodesTracks = EpisodeTrack::all();
+            return $episodesTracks->load(['episode', 'track'])->toJson();
+        } catch (\Exception $ex) {
+            return $this->pageError($ex);
+        }
+    }
+
+    private function pageError(Exception $ex)
+    {
+        return redirect()->route('error')->withError($ex->getMessage());
     }
 }
