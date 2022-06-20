@@ -29,7 +29,7 @@ class StoreEpisodeTrackRequest extends FormRequest
             'start' => 'required|string',
             'end' => 'required|string',
             'notes' => 'nullable|string',
-            'type' => 'in:0,1,2,3,4',
+            'type' => 'in:0,1,2,3,4,5',
             'status' => 'in:0,1,2'
         ];
     }

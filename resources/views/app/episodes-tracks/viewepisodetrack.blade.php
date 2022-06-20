@@ -47,8 +47,8 @@ view episode track
                     <!--end::Input group-->
                 </div>
                 <div class="col">
-                     <!--begin::Input group-->
-                     <div class="fv-row mb-7">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="fs-6 fw-bold form-label mt-3">
                             <span>status</span>
@@ -122,7 +122,7 @@ view episode track
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" class="form-control form-control-solid" name="track_id"
-                        @isset($episodeTrack->track->title)
+                            @isset($episodeTrack->track->title)
                         value="{{$episodeTrack->track->title}}"
                         @endisset
                         >
@@ -188,6 +188,15 @@ view episode track
                 <!--begin::Input-->
                 <textarea class="form-control form-control-solid" name="notes">{{$episodeTrack->notes}}</textarea>
                 <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="fv-row mb-7">
+                @if ($episodeTrack->isActive())
+                <span class="badge badge-success">Active</span>
+                @else
+                <span class="badge badge-danger">not Active</span>
+                @endif
             </div>
             <!--end::Input group-->
             <!--begin::Separator-->

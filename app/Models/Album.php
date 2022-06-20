@@ -36,7 +36,13 @@ class Album extends Model
 
     public function tracks()
     {
-        return $this->hasMany(Track::class, 'album_id', 'id')->orderBy('disk')->orderBy('order');
+        $x =  $this->belongsToMany(Track::class,'album_track')->withPivot('album_track_order','album_track_disk')->orderBy('album_track.album_track_disk')->orderBy('album_track.album_track_order');
+        // dd($x->toSql());
+        // $x =  $this->hasMany(AlbumTrack::class, 'album_id', 'id')->join('tracks', 'album_track.track_id', '=','tracks.id')
+        return $x;
+        // dd ($x->toSql());
+        //->join('tracks', 'album_track.album_id', 'tracks.album_id')
+        // return $this->hasMany(Track::class, 'album_id', 'id')->orderBy('disk')->orderBy('order');
     }
 
     public function displayFormat()

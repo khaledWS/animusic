@@ -187,6 +187,13 @@ class TrackController extends Controller
         }
     }
 
+    public function trackUsage(Track $track)
+    {
+        $data = Track::getEpisodesWhereTrackWasUsed($track->id);
+        return json_encode($data);
+//
+    }
+
 
 
 

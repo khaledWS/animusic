@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Episode;
+use App\Models\EpisodeTrack;
 use App\Models\Title;
 use App\Models\Track;
 use Illuminate\Http\Request;
@@ -34,13 +35,16 @@ class AnimeController extends Controller
 
     public function title(Title $title)
     {
+        // dd($title->episodes);
         try {
             $episodeTitles = collect();
-            $title->episodes->each(function($item, $key) use ($episodeTitles) {
+            $title->episodes->each(function ($item, $key) use ($episodeTitles) {
                 $episodeTitles->push($item->title);
             });
-            return view('app.anime.showtitle', compact('title', 'episodeTitles'));
+            $data = Title::getSeasonTrackData($title->id);
+            return view('app.anime.showtitle', compact('title', 'episodeTitles','data'));
         } catch (\Exception $ex) {
+            // dd($ex);
             return $this->pageError($ex);
         }
     }
@@ -48,8 +52,22 @@ class AnimeController extends Controller
 
     public function track(Track $track)
     {
+        // dd($track->album->getImage());
         try {
-            return view('app.anime.showtrack', compact('track'));
+            $seasonOneData = EpisodeTrack::getSeasonData($track->id, 5);
+            $seasonTwoData = EpisodeTrack::getSeasonData($track->id, 6);
+            $seasonThreePartOneData = EpisodeTrack::getSeasonData($track->id, 7);
+            $seasonThreePartTwoData = EpisodeTrack::getSeasonData($track->id, 8);
+            $seasonFourPartOneData = EpisodeTrack::getSeasonData($track->id, 9);
+            $seasonFourPartTwoData = EpisodeTrack::getSeasonData($track->id, 10);
+            $overallData = EpisodeTrack::getSeasonData($track->id, 0);
+            // dd($seasonOneData);
+            // $seasonTwoData = EpisodeTrack::getSeasonOneData($track->id);
+            // $seasonThreeData = EpisodeTrack::getSeasonOneData($track->id);
+            // $seasonFourData = EpisodeTrack::getSeasonOneData($track->id);
+            // $overallData = EpisodeTrack::getSeasonOneData($track->id);
+
+            return view('app.anime.showtrack', compact('track', 'seasonOneData', 'seasonTwoData', 'seasonThreePartOneData', 'seasonThreePartTwoData', 'seasonFourPartOneData', 'seasonFourPartTwoData', 'overallData'));
         } catch (\Exception $ex) {
             return $this->pageError($ex);
         }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEpisodeTrackRequest extends FormRequest
+class UpdateAlbumTrackRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateEpisodeTrackRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,13 +24,7 @@ class UpdateEpisodeTrackRequest extends FormRequest
     public function rules()
     {
         return [
-            'episode_id' => 'exists:episodes,id',
-            'track_id'  => 'nullable|exists:tracks,id',
-            'start' => 'required|string',
-            'end' => 'required|string',
-            'notes' => 'nullable|string',
-            'type' => 'in:0,1,2,3,4,5',
-            'status' => 'in:0,1,2'
+            //
         ];
     }
 }

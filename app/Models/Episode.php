@@ -14,6 +14,12 @@ class Episode extends Model
     protected  $guarded = [];
 
 
+    public function tracks()
+    {
+        $x =  $this->belongsToMany(Track::class,'episode_track')->withPivot('episode_track_title','start','end','notes')->orderBy('episode_track.start')->toSql();
+        dd($x);
+        return $x;
+    }
 
     public function ParentTitle()
     {

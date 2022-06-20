@@ -4,13 +4,13 @@ var DatatableRemoteAjaxDemo = {
         console.log()
         var t;
         t = $("#kt_datatable_example_3").DataTable({
-            "scrollY": "500px",
+            "scrollY": "550px",
             "paging": 0,
              "info": 0,
              'ordering': 0,
              "responsive": 1,
             ajax: {
-                url: "/episode/episode-track/"+title+"/" ,
+                url: episode_tracks_url+"/"+title+"/" ,
                 dataSrc:''
             },
             orderCellsTop: true,
@@ -74,7 +74,9 @@ var DatatableRemoteAjaxDemo = {
         //     t.search($(this).val(), "STATUS")
         // }),
          $(".nav-tabs li a").click(function(){
-            t.column(5).search(this.getAttribute('targ')).draw();
+            var searchFor = this.getAttribute('targ');
+            // var searchFor = 7;
+            t.column(5).search('\\b' + searchFor + '\\b',true).draw();
             $('#episode-title').html(titles[this.getAttribute('ep')-1]);
          });
         // t.column(5).search(1).draw();

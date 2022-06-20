@@ -3,14 +3,15 @@
 {{$title->title}}
 @endsection
 @section('css')
-<link href="{{asset('assets/plugins/custom/datatables/datatables.dark.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/custom/datatables/datatables.dark.bundle.css')}}" rel="stylesheet"
+    type="text/css" />
 <style>
-@media only screen and (max-width: 500px) {
-  #title-card{
-      background: linear-gradient(90deg, rgba(15,49,75,1) 0%, rgba(45,51,103,1) 100%);
-      background-image:  none;
-  }
-}
+    @media only screen and (max-width: 500px) {
+        #title-card {
+            background: linear-gradient(90deg, rgba(15, 49, 75, 1) 0%, rgba(45, 51, 103, 1) 100%);
+            background-image: none;
+        }
+    }
 </style>
 @endsection
 @section('content')
@@ -105,34 +106,77 @@
 
             </div>
             <div class="flex-lg-row-fluid ms-lg-15">
-                <div class="card card-flush h-xl-100">
-                    <div class="card-body">
-                        <div class="">
-                            <div class="d-flex flex-column flex-md-row rounded">
-                                <ul
-                                    class="nav nav-tabs nav-pills border-0 flex-row flex-md-column me-5 mb-3 mb-md-0 fs-6">
-                                    @foreach ($title->episodes as $episode)
-                                    <li class="nav-item w-100px me-0">
-                                        <a class="nav-link btn btn-sm btn-active-light-primary"
-                                            targ="{{$episode->id}}" ep= "{{$episode->season_number}}" data-bs-toggle="tab"
-                                            href="#kt_vtab_pane_3">Episode
-                                            {{$episode->season_number}}</a>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                                <div class="tab-content overflow-auto w-100" id="myTabContent">
-                                    <h3 class="mb-5 mt-3 text-center title" id="episode-title"></h3>
-                                    <div class="tab-pane fade show " id="kt_vtab_pane_3"
-                                        role="tabpanel">
-                                        <table id="kt_datatable_example_3"
-                                            class="table responsive  table-striped border rounded gy-5 gs-7">
-                                        </table>
+                <div class="col mb-12">
+                    <div class="card card-flush h-xl-100">
+                        <div class="card-body">
+                            <div class="">
+                                <div class="d-flex flex-column flex-md-row rounded">
+                                    <ul
+                                        class="nav nav-tabs nav-pills border-0 flex-row flex-md-column me-5 mb-3 mb-md-0 fs-6">
+                                        @foreach ($title->episodes as $episode)
+                                        <li class="nav-item w-100px me-0">
+                                            <a class="nav-link btn btn-sm btn-active-light-primary"
+                                                targ="{{$episode->id}}" ep="{{$episode->season_number}}"
+                                                data-bs-toggle="tab" href="#kt_vtab_pane_3">Episode
+                                                {{$episode->season_number}}</a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    <div class="tab-content overflow-auto w-100" id="myTabContent">
+                                        <h3 class="mb-5 mt-3 text-center title" id="episode-title"></h3>
+                                        <div class="tab-pane fade show " id="kt_vtab_pane_3" role="tabpanel">
+                                            <table id="kt_datatable_example_3"
+                                                class="table responsive  table-striped border rounded gy-5 gs-7">
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col">
+                    <div class="card card-flush h-xl-100">
+                        <div class="card-body">
+                            <div class="d-flex flex-column flex-md-row rounded">
+                                <!--begin::Card widget 4-->
+                                <div class="badge-light card card-flushh-md-70 m-1 mb-5 mb-xl-10">
+                                    <!--begin::Header-->
+                                    <div class="card-header pt-5">
+                                        <!--begin::Title-->
+                                        <div class="card-title d-flex flex-column">
+                                            <!--begin::Info-->
+                                            <div class="d-flex align-items-center">
+                                                <!--begin::Currency-->
+                                                <span
+                                                    class="fs-1hx fw-bold text-primary me-1 align-self-start mb-3">What was Used the most this season?</span>
+                                                <!--end::Currency-->
+                                            </div>
+                                            <!--end::Info-->
+                                             <!--begin::Subtitle-->
+                                        <span class=" text-gray-700 pt-1 fw-bold fs-5"> The Track that was used the most times is:
+                                            </span>
+                                            <span class=" text-dark pt-1 fw-bold fs-6"> @isset($data[0][0])
+                                              <span class="text-danger">{{ $data[0][0]->title}}</span> was used <span class="text-danger">{{ $data[0][0]->USECOUNT}}</span>  times this season
+                                            @endisset
+                                                </span>
+                                                <span class=" text-gray-700  pt-1 fw-bold fs-5"> the track that played the most is:
+                                                </span>
+                                        <span class=" pt-1 fw-bold fs-6 mb-3"> @isset ($data[0][0])
+                                           <span class="text-danger">{{$data[1][0]->title}}</span>Total Time used is  <span class="text-danger">{{$data[1][0]->SUM}}</span>
+                                        @endisset </span>
+                                        <!--end::Subtitle-->
+                                        </div>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Header-->
+                                </div>
+                                <!--end::Card widget 4-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -147,8 +191,10 @@
     titles.push('{{$title}}');
     @endforeach
     console.log(titles);
+
+    let episode_tracks_url = "{{url('/episode/episode-track')}}"
+    console.log(episode_tracks_url)
 </script>
 <script src="{{asset('assets/js/ab.js')}}"></script>
 <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
 @endsection
-

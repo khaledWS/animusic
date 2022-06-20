@@ -27,7 +27,7 @@ add track to episode
                         <h5 class="mb-5">track type</h5>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @checked(old('type')) name="type" type="radio" value="0"
+                                <input class="form-check-input" @checked(old('type') == 0 || old('type') == null) name="type" type="radio" value="0"
                                     id="soundtrack" />
                                 <label class="form-check-label" for="soundtrack">
                                     soundtrack
@@ -36,7 +36,7 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @checked(old('type')) name="type" type="radio" value="1"
+                                <input class="form-check-input" @checked(old('type') == 1) name="type" type="radio" value="1"
                                     id="Openning" />
                                 <label class="form-check-label" for="Openning">
                                     Openning
@@ -45,7 +45,7 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @checked(old('type')) name="type" type="radio" value="2"
+                                <input class="form-check-input" @checked(old('type') == 2) name="type" type="radio" value="2"
                                     id="Ending" />
                                 <label class="form-check-label" for="Ending">
                                     Ending
@@ -54,7 +54,7 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @checked(old('type')) name="type" type="radio" value="3"
+                                <input class="form-check-input" @checked(old('type') == 3) name="type" type="radio" value="3"
                                     id="Preview" />
                                 <label class="form-check-label" for="Preview">
                                     Preview
@@ -63,21 +63,28 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @checked(old('type')) name="type" type="radio" value="4"
+                                <input class="form-check-input" @checked(old('type') == 4) name="type" type="radio" value="4"
                                     id="midcard" />
                                 <label class="form-check-label" for="midcard">
                                     Mid card
                                 </label>
                             </div>
                         </div>
-
-
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked(old('type') == 5) name="type" type="radio" value="5"
+                                    id="titlecard" />
+                                <label class="form-check-label" for="midcard">
+                                    title card
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="col">
                         <h5 class="mb-5">track status</h5>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @selected(old('status')) name="status" type="radio"
+                                <input class="form-check-input" @checked(old('status') == 0) name="status" type="radio"
                                     value="0" id="known" />
                                 <label class="form-check-label" for="known">
                                     Known track
@@ -86,7 +93,7 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @selected(old('status')) name="status" type="radio"
+                                <input class="form-check-input" @checked(old('status') == 1) name="status" type="radio"
                                     value="1" id="unknown" />
                                 <label class="form-check-label" for="unknown">
                                     Unknown Track
@@ -95,7 +102,7 @@ add track to episode
                         </div>
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" @selected(old('status')) name="status" type="radio"
+                                <input class="form-check-input" @checked(old('status') == 2) name="status" type="radio"
                                     value="2" id="new" />
                                 <label class="form-check-label" for="new">
                                     New Track
@@ -241,7 +248,7 @@ add track to episode
                 <div class="fv-row mb-7">
                     <!--begin::Option-->
                     <div class="form-check form-check-custom form-check-solid">
-                        <input name="active" class="form-check-input" type="checkbox" @checked(old('active'))
+                        <input name="active" class="form-check-input" type="checkbox" value="1" @checked(old('active') || old('active') == null)
                             id="flexCheckDefault" />
                         <label class="form-check-label" for="flexCheckDefault">
                             Active
@@ -279,64 +286,4 @@ add track to episode
 </div>
 @endsection
 @section('js')
-<script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-
-// $('input[name="unknown"]').on('change', function (){
-//     if( $(this).attr('isChecked') == 'true'){
-//         $(this).attr('isChecked', 'false')
-//         $('select[name="episode_id"]').removeAttr('disabled');
-//         $('select[name="track_id"]').removeAttr('disabled');
-
-//     }
-//     else{
-//         $(this).attr( "isChecked", 'true' );
-//         $('select[name="episode_id"]').attr('disabled','disabled');
-//         $('select[name="track_id"]').attr('disabled','disabled');
-//     }
-// });
-//     $('input[name="new"]').on('change', function (){
-//     if( $(this).attr('isChecked') == 'true'){
-//         $(this).attr('isChecked', 'false');
-//         enable_disable();
-//         // $('select[name="episode_id"]').removeAttr('disabled');
-//         // $('select[name="track_id"]').removeAttr('disabled');
-
-//     }
-//     else{
-//         $(this).attr( "isChecked", 'true' );
-//         enable_disable();
-//         // $('select[name="episode_id"]').attr('disabled','disabled');
-//         // $('select[name="track_id"]').attr('disabled','disabled');
-//     }
-// });
-
-function enable_disable()
-{
-    if(($('input[name="new"]').attr('isChecked') == 'false') && ($('input[name="unknown"]').attr('isChecked') == 'false')){
-        $('select[name="episode_id"]').removeAttr('disabled');
-        $('select[name="track_id"]').removeAttr('disabled');
-    }
-    else{
-        $('select[name="episode_id"]').attr('disabled','disabled');
-        $('select[name="track_id"]').attr('disabled','disabled');
-    }
-    }
-
-</script>
 @endsection

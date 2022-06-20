@@ -147,7 +147,7 @@
                                     </tr>
                                     <?php $x = 0 ?>
                                     @foreach ($album->tracks as $track)
-                                    @if ($track->disk == 2 && $x == 0)
+                                    @if ($track->pivot->album_track_disk == 2 && $x == 0)
                                     <tr>
                                         <td colspan="3"
                                             style="background-color:#151521; --bs-table-accent-bg:none; color:#c29b69"
@@ -156,8 +156,8 @@
                                     <?php $x = 1 ?>
                                     @endif
                                     <tr>
-                                        <td>{{$track->order}}</td>
-                                        <td> <a href="/track/{{$track->id}}">{{$track->title}}</a></td>
+                                        <td>{{$track->pivot->album_track_order}}</td>
+                                        <td> <a href="{{route('track.show',$track->id)}}">{{$track->title}}</a></td>
                                         <td>{{$track->displayFormat()}}</td>
                                     </tr>
                                     @endforeach

@@ -33,7 +33,12 @@ Route::get('/dashboard', function () {
 
 
 
-
+Route::get('/test', function (){
+    $x = App\models\EpisodeTrack::join('tracks', 'track_id', '=', 'tracks.id')->where('title', '進撃pf20130218巨人')->get()->toArray();
+    // $x = App\models\EpisodeTrack::where('track_id', '21')->get();
+    // ->where('tracks.title', 'like' ,'進進撃撃st-hrn-egt20130629巨巨人人')
+    dd($x);
+});
 Route::middleware(['auth'])->group(function () {
 
     /**
@@ -111,6 +116,7 @@ route::get('title/{title}', [AnimeController::class, 'title'])->name('title.show
 route::get('/album/{album}', [AnimeController::class, 'album'])->name('album.show');
 Route::get('/track/{track}', [AnimeController::class, 'track'])->name('track.show');
 route::get('/episode/episode-track/{titleID}', [EpisodeTrackController::class, 'getAll'])->name('episode.get-tracks');
+Route::get('/track/track-usage/{track}', [TrackController::class, 'trackUsage']);
 
 Route::get('/error', function () {
     return view('error-page');

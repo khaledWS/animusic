@@ -49,6 +49,7 @@ class EpisodeTrackController extends Controller
      */
     public function store(StoreEpisodeTrackRequest $request)
     {
+        // return $request;
         try {
             $collection = collect($request);
             $collection->forget(['_token']);
@@ -88,6 +89,9 @@ class EpisodeTrackController extends Controller
                     case 4:
                         $collection['episode_track_title'] = 'Mid Card';
                         break;
+                    case 5:
+                        $collection['episode_track_title'] = 'Title Card';
+                        break;
                 }
             }
 
@@ -95,8 +99,12 @@ class EpisodeTrackController extends Controller
             $collection['start'] = (int)$time[0] * 60 + (int)$time[1];
             $time = explode(':', $collection['end']);
             $collection['end'] = (int)$time[0] * 60 + (int)$time[1];
-            EpisodeTrack::create($collection->toArray());
-            return redirect()->route('episodeTrack.index');
+            $new = EpisodeTrack::create($collection->toArray());
+            if ($new) {
+                return redirect()->route('episodeTrack.index');
+            } else {
+                throw new Exception('error inserting');
+            }
         } catch (\Exception $ex) {
             return  $this->pageError($ex);
         }
@@ -183,6 +191,9 @@ class EpisodeTrackController extends Controller
                     case 4:
                         $collection['episode_track_title'] = 'Mid Card';
                         break;
+                    case 5:
+                        $collection['episode_track_title'] = 'Title Card';
+                        break;
                 }
             }
             $time = explode(':', $collection['start']);
@@ -214,8 +225,11 @@ class EpisodeTrackController extends Controller
 
     public function getAll($titleID)
     {
+        // $episodeTracks = Episode::where('title_id',5)->get();
+        // dd($episodeTracks[0]->tracks);
         try {
-            $episodesTracks = EpisodeTrack::join('episodes','episode_id','=','episodes.id')->where('title_id',$titleID)->orderBy('start')->get();
+
+            $episodesTracks = EpisodeTrack::where('episode_track.active', 1)->join('episodes', 'episode_id', '=', 'episodes.id')->where('title_id', $titleID)->orderBy('start')->get();
             // $episodesTracks = EpisodeTrack::where('title_id', $titleID)->OrderBy('start')->get();
             // $episodesTracks = EpisodeTrack::OrderBy('start')->episode()->get();
             // dd($episodesTracks);
@@ -229,7 +243,7 @@ class EpisodeTrackController extends Controller
     public function getRecords()
     {
         try {
-            $episodesTracks = EpisodeTrack::all();
+            $episodesTracks = EpisodeTrack::get();
             return $episodesTracks->load(['episode', 'track'])->toJson();
         } catch (\Exception $ex) {
             return $this->pageError($ex);

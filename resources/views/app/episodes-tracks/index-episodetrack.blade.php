@@ -36,13 +36,15 @@
 @section('js')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script>
+        let get_records_url = "{{route('episodeTrack.getrecords')}}";
+        let view_record_url = "{{url('/episodetrack/view/')}}";
         t = $("#kt_datatable_example_3").DataTable({
             "paging": 1,
             "info": 0,
             'ordering': 0,
             "responsive": 0,
             ajax: {
-                url: "/episodetrack/getrecords",
+                url: get_records_url,
                 dataSrc: ''
             },
             orderCellsTop: true,
@@ -52,7 +54,7 @@
                     width: "5%",
                     textAlign: "center",
                     render: function(data, type, row) {
-                        return '<a href="/episodetrack/view/' + data + '">' + data + '</a>';
+                        return '<a href=" '+view_record_url+'/' + data + '">' + data + '</a>';
                     }
                 }, {
                     data: "episode",

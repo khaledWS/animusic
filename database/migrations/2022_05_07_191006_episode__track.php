@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('episode_track', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            $table->string('episode_track_title')->nullable();
             $table->foreignId('episode_id');
             $table->foreignId('track_id')->nullable();
             $table->integer('start');

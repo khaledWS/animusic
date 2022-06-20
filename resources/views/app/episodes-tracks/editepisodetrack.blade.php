@@ -29,7 +29,7 @@ edit episode track
                         <div class="mb-5">
                             <div class="form-check form-check-custom form-check-solid">
                                 <input class="form-check-input" @checked($episodeTrack->type == 0) name="type"
-                                type="radio" value=""
+                                type="radio" value="0"
                                 id="soundtrack" />
                                 <label class="form-check-label" for="soundtrack">
                                     soundtrack
@@ -73,6 +73,15 @@ edit episode track
                                 id="midcard" />
                                 <label class="form-check-label" for="midcard">
                                     Mid card
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" @checked(old('type') == 5) name="type" type="radio" value="5"
+                                    id="titlecard" />
+                                <label class="form-check-label" for="midcard">
+                                    title card
                                 </label>
                             </div>
                         </div>
@@ -231,6 +240,21 @@ edit episode track
                     <!--end::Input-->
                 </div>
                 <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="fv-row mb-7">
+                    <!--begin::Option-->
+                    <div class="form-check form-check-custom form-check-solid">
+                        <input name="active" class="form-check-input" type="checkbox" @checked($episodeTrack->isActive()) />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Active
+                        </label>
+                    </div>
+                    <!--end::Option-->
+                    @error('active')
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!--end::Input group-->
                 <!--begin::Separator-->
                 <div class="separator mb-6"></div>
                 <!--end::Separator-->
@@ -257,64 +281,4 @@ edit episode track
 </div>
 @endsection
 @section('js')
-<script>
-    $("#kt_daterangepicker_3").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-$("#kt_daterangepicker_4").daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        minYear: 1901,
-        maxYear: parseInt(moment().format("YYYY"),10)
-    }, function(start, end, label) {
-    }
-);
-
-// $('input[name="unknown"]').on('change', function (){
-//     if( $(this).attr('isChecked') == 'true'){
-//         $(this).attr('isChecked', 'false')
-//         $('select[name="episode_id"]').removeAttr('disabled');
-//         $('select[name="track_id"]').removeAttr('disabled');
-
-//     }
-//     else{
-//         $(this).attr( "isChecked", 'true' );
-//         $('select[name="episode_id"]').attr('disabled','disabled');
-//         $('select[name="track_id"]').attr('disabled','disabled');
-//     }
-// });
-//     $('input[name="new"]').on('change', function (){
-//     if( $(this).attr('isChecked') == 'true'){
-//         $(this).attr('isChecked', 'false');
-//         enable_disable();
-//         // $('select[name="episode_id"]').removeAttr('disabled');
-//         // $('select[name="track_id"]').removeAttr('disabled');
-
-//     }
-//     else{
-//         $(this).attr( "isChecked", 'true' );
-//         enable_disable();
-//         // $('select[name="episode_id"]').attr('disabled','disabled');
-//         // $('select[name="track_id"]').attr('disabled','disabled');
-//     }
-// });
-
-function enable_disable()
-{
-    if(($('input[name="new"]').attr('isChecked') == 'false') && ($('input[name="unknown"]').attr('isChecked') == 'false')){
-        $('select[name="episode_id"]').removeAttr('disabled');
-        $('select[name="track_id"]').removeAttr('disabled');
-    }
-    else{
-        $('select[name="episode_id"]').attr('disabled','disabled');
-        $('select[name="track_id"]').attr('disabled','disabled');
-    }
-    }
-
-</script>
 @endsection
