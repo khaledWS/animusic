@@ -1,7 +1,6 @@
 var DatatableRemoteAjaxDemo = {
     init: function () {
         var title = $("input[name=title_id]").val();
-        console.log()
         var t;
         t = $("#kt_datatable_example_3").DataTable({
             "scrollY": "550px",
@@ -27,13 +26,21 @@ var DatatableRemoteAjaxDemo = {
                 render: function (data, type, row) {
                     color = '';
                     if(row.track == null){
-                        if(row.type == 0){
+                        if (row.status == 2)
+                        {
+                            color = 'color: #2cd92c';
+                        }
+                       else if(row.type == 0){
                             color = 'color: gray';
                         }
+
                         else{
                             color = 'color: yellow';
                         }
                         return '<a style="'+color+'">'+data+'</a>';
+                    }
+                    if(row.new == true){
+                        color = 'color: #2cd92c';
                     }
                     if(!row.type == 0){
                         color = 'color: yellow';

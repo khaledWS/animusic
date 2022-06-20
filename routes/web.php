@@ -9,7 +9,9 @@ use App\Http\Controllers\TrackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Models\Album;
+use App\Models\Episode;
+use App\Models\Track;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +35,20 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/test', function (){
-    $x = App\models\EpisodeTrack::join('tracks', 'track_id', '=', 'tracks.id')->where('title', '進撃pf20130218巨人')->get()->toArray();
+Route::get('/test', function () {
+
+
+    $abc = 0;
+    if (isset($track)) {
+        $x = Album::where('title_id',Episode::where('id', 38)->get('title_id')[0]->title_id)->get();
+        $b = Track::where('id', $track)->get('album_id');
+        foreach ($x as $key => $value) {
+            if ($value->id == $b[0]->album_id) {
+                $abc = 1;
+            }
+        }
+    }
+    dd($abc);
     // $x = App\models\EpisodeTrack::where('track_id', '21')->get();
     // ->where('tracks.title', 'like' ,'進進撃撃st-hrn-egt20130629巨巨人人')
     dd($x);

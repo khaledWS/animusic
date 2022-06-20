@@ -190,10 +190,9 @@
     @foreach ($episodeTitles as $title)
     titles.push('{{$title}}');
     @endforeach
-    console.log(titles);
+
 
     let episode_tracks_url = "{{url('/episode/episode-track')}}"
-    console.log(episode_tracks_url)
 </script>
 <script src="{{asset('assets/js/ab.js')}}"></script>
 <script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>

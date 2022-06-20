@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\EpisodeTrack;
 use App\Http\Requests\StoreEpisodeTrackRequest;
 use App\Http\Requests\UpdateEpisodeTrackRequest;
+use App\Models\Album;
 use App\Models\Episode;
+use App\Models\Title;
 use App\Models\Track;
 use Exception;
 
@@ -94,7 +96,20 @@ class EpisodeTrackController extends Controller
                         break;
                 }
             }
-
+            $new = 0;
+            if ($collection->has('track_id')) {
+                $albums_of_title = Album::where('title_id', $x = Episode::where('id', $collection['episode_id'])->get('title_id')[0]->title_id)->get();
+                $track_album_id = Track::where('id', $collection['track_id'])->get('album_id');
+                foreach ($albums_of_title as $key => $value) {
+                    if ($value->id == $track_album_id[0]->album_id) {
+                        $new = 1;
+                    }
+                }
+            }
+            if ($collection['status'] == 2){
+                $new = 1;
+            }
+            $collection['new'] = $new;
             $time = explode(':', $collection['start']);
             $collection['start'] = (int)$time[0] * 60 + (int)$time[1];
             $time = explode(':', $collection['end']);
