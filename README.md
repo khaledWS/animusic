@@ -17,8 +17,10 @@ aim figuring out what to do with it as i go along and after i shared it with the
  
 This Application is being Made with Laravel with Snactum for authentication, no front end framework is being used as i don’t have much experiance with them 
 
-<img src="https://media.discordapp.net/attachments/626582685057548301/980924409239973968/unknown.png" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/989180689364693022/unknown.png" width="600">
 
-<img src="https://media.discordapp.net/attachments/626582685057548301/980924552139907123/unknown.png" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/989180772231553034/unknown.png" width="600">
 
-<img src="https://cdn.discordapp.com/attachments/626582685057548301/980924855446818886/unknown.png" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/989180870105657434/unknown.png" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/989180964796239872/unknown.png" width="600">
+<img src="https://cdn.discordapp.com/attachments/626582685057548301/989181105003462666/unknown.png" width="600">
