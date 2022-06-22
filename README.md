@@ -9,8 +9,11 @@ Right now the most simple Features are implemented :
 - Being able to view the different Titles(seasons in an anime) as well as the different albums with information about them
 - Viewing the tracks in an album with their length
 - Viewing the music played in episodes of the anime
- 
-Note that site is not populated with data yet
+
+aim figuring out what to do with it as i go along and after i shared it with the attack on titan anime community they gave me some feedback 
+
+
+
  
 This Application is being Made with Laravel with Snactum for authentication, no front end framework is being used as i don’t have much experiance with them 
 
